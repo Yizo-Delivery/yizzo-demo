@@ -72,6 +72,50 @@ const LEGS: [Step, Leg][] = [
       await expect(page.getByText('Held', { exact: true })).toBeVisible();
     },
   ],
+  [
+    'pickedUp',
+    async (page) => {
+      await page.getByRole('button', { name: /^Traveler ·/ }).click();
+      await page.getByRole('button', { name: 'Mark picked up' }).click();
+    },
+  ],
+  [
+    'inTransit',
+    async (page) => {
+      await page.getByRole('button', { name: 'Mark in transit' }).click();
+    },
+  ],
+  [
+    'delivered',
+    async (page) => {
+      await page.getByRole('button', { name: 'Mark delivered' }).click();
+    },
+  ],
+  [
+    'released',
+    async (page) => {
+      await page.getByRole('button', { name: /^Sender ·/ }).click();
+      await page.getByRole('button', { name: 'Confirm delivery' }).click();
+      await expect(page.getByText('Released', { exact: true })).toBeVisible();
+    },
+  ],
+  [
+    'rating',
+    async (page) => {
+      await page.getByRole('radio', { name: '5 stars' }).click();
+      await page.getByRole('button', { name: 'Submit rating' }).click();
+      await expect(page.getByText(/^Your rating is hidden/)).toBeVisible();
+    },
+  ],
+  [
+    'done',
+    async (page) => {
+      await page.getByRole('button', { name: /^Traveler ·/ }).click();
+      await page.getByRole('radio', { name: '5 stars' }).click();
+      await page.getByRole('button', { name: 'Submit rating' }).click();
+      await page.getByRole('button', { name: 'See summary' }).click();
+    },
+  ],
 ];
 
 /** Drives the demo from a fresh page to `step` */

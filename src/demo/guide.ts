@@ -112,7 +112,7 @@ const ENTRIES: Record<Exclude<Step, 'start'>, Entry> = {
     who: null,
     title: "That's one delivery",
     body: 'Verified people, matched by route, paid through escrow, rated both ways.',
-    action: 'Try the other story, or restart.',
+    action: 'Try the other story, or start over.',
   }),
 };
 
