@@ -1,11 +1,15 @@
 'use client';
 
 import { useDemo } from '@/demo/DemoProvider';
+import { reached } from '@/demo/reducer';
+import { EscrowScreen } from './EscrowScreen';
 import { MatchesScreen } from './MatchesScreen';
 import { PhoneScreen } from './PhoneScreen';
 import { PostPackageScreen } from './PostPackageScreen';
+import { PostTripScreen } from './PostTripScreen';
 import { SignUpScreen } from './SignUpScreen';
 import { StartScreen } from './StartScreen';
+import { TravelerHomeScreen } from './TravelerHomeScreen';
 import { VerifyScreen } from './VerifyScreen';
 
 /** Stands in for screens later tasks add */
@@ -21,9 +25,12 @@ function Placeholder({ name }: { name: string }) {
 export function ScreenRouter() {
   const { state } = useDemo();
 
+  if (state.panel === 'postTrip') return <PostTripScreen />;
   if (state.panel !== null) return <Placeholder name={state.panel} />;
 
-  if (state.view === 'traveler') return <Placeholder name={`${state.step}, traveler`} />;
+  if (state.view === 'traveler') {
+    return reached(state, 'paid') ? <Placeholder name={`${state.step}, traveler`} /> : <TravelerHomeScreen />;
+  }
 
   switch (state.step) {
     case 'start':
@@ -39,6 +46,10 @@ export function ScreenRouter() {
     case 'matches':
     case 'offerSent':
       return <MatchesScreen />;
+    case 'offerAccepted':
+    case 'confirmed':
+    case 'paid':
+      return <EscrowScreen />;
     default:
       return <Placeholder name={`${state.step}, ${state.view}`} />;
   }

@@ -44,8 +44,32 @@ const LEGS: [Step, Leg][] = [
   [
     'offerSent',
     async (page) => {
-      await page.getByRole('article').first().getByRole('button', { name: 'Send offer' }).click();
-      await expect(page.getByText('Offer sent')).toBeVisible();
+      const best = page.getByRole('article').first();
+      await best.getByRole('button', { name: 'Send offer' }).click();
+      await expect(best.getByText('Offer sent')).toBeVisible();
+    },
+  ],
+  [
+    'offerAccepted',
+    async (page) => {
+      await page.getByRole('button', { name: /^Traveler ·/ }).click();
+      await page.getByRole('button', { name: 'Accept' }).click();
+      await expect(page.getByText(/^Waiting for .* to confirm$/)).toBeVisible();
+    },
+  ],
+  [
+    'confirmed',
+    async (page) => {
+      await page.getByRole('button', { name: /^Sender ·/ }).click();
+      await page.getByRole('button', { name: /^Confirm / }).click();
+      await expect(page.getByRole('button', { name: /into escrow$/ })).toBeVisible();
+    },
+  ],
+  [
+    'paid',
+    async (page) => {
+      await page.getByRole('button', { name: /into escrow$/ }).click();
+      await expect(page.getByText('Held', { exact: true })).toBeVisible();
     },
   ],
 ];
