@@ -2,6 +2,7 @@
 
 import { useDemo } from '@/demo/DemoProvider';
 import { reached } from '@/demo/reducer';
+import { ChatScreen } from './ChatScreen';
 import { EscrowScreen } from './EscrowScreen';
 import { MatchesScreen } from './MatchesScreen';
 import { PhoneScreen } from './PhoneScreen';
@@ -26,7 +27,7 @@ export function ScreenRouter() {
   const { state } = useDemo();
 
   if (state.panel === 'postTrip') return <PostTripScreen />;
-  if (state.panel !== null) return <Placeholder name={state.panel} />;
+  if (state.panel === 'chat') return <ChatScreen />;
 
   if (state.view === 'traveler') {
     return reached(state, 'paid') ? <Placeholder name={`${state.step}, traveler`} /> : <TravelerHomeScreen />;

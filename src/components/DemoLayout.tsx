@@ -1,11 +1,31 @@
 'use client';
 
-import { RotateCcw } from 'lucide-react';
+import { MessageCircle, RotateCcw } from 'lucide-react';
 import { useDemo } from '@/demo/DemoProvider';
 import { guideFor } from '@/demo/guide';
+import { reached } from '@/demo/reducer';
 import { ScreenRouter } from '@/screens/ScreenRouter';
 import { ViewSwitch } from './ViewSwitch';
 import { cx } from './ui';
+
+/** Opens the chat with the other side; there from the first offer on */
+function MessageButton() {
+  const { state, story, dispatch } = useDemo();
+  if (story === null || state.panel !== null || !reached(state, 'offerSent')) return null;
+
+  const traveler = story.travelers.find((t) => t.id === state.chosenTravelerId) ?? story.travelers[0];
+  const other = (state.view === 'sender' ? traveler.name : story.sender.name).split(' ')[0];
+  return (
+    <button
+      type="button"
+      onClick={() => dispatch({ type: 'openPanel', panel: 'chat' })}
+      className="inline-flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-sm font-semibold text-brand hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-brand"
+    >
+      <MessageCircle aria-hidden className="size-5" />
+      Message {other}
+    </button>
+  );
+}
 
 function RestartButton({ className }: { className?: string }) {
   const { dispatch } = useDemo();
@@ -55,7 +75,10 @@ export function DemoLayout() {
       >
         {state.step !== 'start' && (
           <header className="flex flex-col gap-3 border-b border-stone-200 bg-white px-4 pt-4 pb-3">
-            <p className="text-xl font-bold tracking-tight text-brand">Yizzo</p>
+            <div className="flex min-h-11 items-center justify-between">
+              <p className="text-xl font-bold tracking-tight text-brand">Yizzo</p>
+              <MessageButton />
+            </div>
             <ViewSwitch />
           </header>
         )}
