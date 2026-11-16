@@ -39,7 +39,8 @@ describe('guideFor', () => {
     const senderRated = at('rating', { view: 'sender', ratings: { sender: { stars: 5 }, traveler: null } });
     expect(guideFor(senderRated, DIASPORA).who).toBe('traveler');
     const bothRated = at('rating', { ratings: { sender: { stars: 5 }, traveler: { stars: 4 } } });
-    expect(guideFor(bothRated, DIASPORA).next).toMatch(/summary/);
+    // Names the button exactly as it reads
+    expect(guideFor(bothRated, DIASPORA).next).toBe('Tap See summary.');
   });
 
   it('has a title and a next step for every step', () => {

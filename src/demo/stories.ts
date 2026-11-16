@@ -1,4 +1,4 @@
-import type { Story, StoryId } from './types';
+import type { Story, StoryId, Trip } from './types';
 
 // Every person, number and message here is invented for the demo.
 
@@ -71,11 +71,12 @@ export const DIASPORA: Story = {
     },
   ],
   seededMessages: [
-    { id: 'seed-1', from: 'traveler', text: 'Hi Selam! I fly out Dec 4 from Dulles.', at: '2026-11-28T15:02:00Z' },
+    // No dates or names of a particular trip: any traveler the offer goes to can say these
+    { id: 'seed-1', from: 'traveler', text: 'Hi Selam! Happy to carry this for you.', at: '2026-11-28T15:02:00Z' },
     {
       id: 'seed-2',
       from: 'sender',
-      text: 'Great. My mom can meet you near Bole on Friday.',
+      text: 'Great. My mom can meet you near Bole when you land.',
       at: '2026-11-28T15:10:00Z',
     },
   ],
@@ -154,7 +155,7 @@ export const DOMESTIC: Story = {
     {
       id: 'seed-1',
       from: 'traveler',
-      text: "Hi Meron! I'm driving to Hawassa on Dec 6, leaving early.",
+      text: 'Hi Meron! Happy to take this down to Hawassa.',
       at: '2026-11-30T07:40:00Z',
     },
     {
@@ -168,6 +169,24 @@ export const DOMESTIC: Story = {
 };
 
 const STORIES: Record<StoryId, Story> = { diaspora: DIASPORA, domestic: DOMESTIC };
+
+/**
+ * The trips the traveler view shows for one traveler: the best match's are
+ * written out above; anyone else's is their one trip on the package's route.
+ */
+export function tripsFor(story: Story, travelerId: string): Trip[] {
+  const traveler = story.travelers.find((t) => t.id === travelerId);
+  if (traveler === undefined || traveler.id === story.travelers[0].id) return [...story.travelerTrips];
+  return [
+    {
+      origin: story.packageDraft.origin,
+      destination: story.packageDraft.destination,
+      departure: traveler.departure,
+      arrival: traveler.arrival,
+      capacityKg: traveler.spareKg,
+    },
+  ];
+}
 
 export function getStory(id: StoryId): Story {
   return STORIES[id];

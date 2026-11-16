@@ -106,7 +106,7 @@ const ENTRIES: Record<Exclude<Step, 'start'>, Entry> = {
       who,
       title: 'Ratings',
       body: 'Ratings stay hidden until both have rated, so neither side can retaliate.',
-      action: both ? 'Tap See the summary.' : `Rate ${who === 'sender' ? traveler : sender}.`,
+      action: both ? 'Tap See summary.' : `Rate ${who === 'sender' ? traveler : sender}.`,
     };
   },
   done: () => ({

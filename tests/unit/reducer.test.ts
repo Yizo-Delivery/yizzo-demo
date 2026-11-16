@@ -107,6 +107,23 @@ describe('demoReducer', () => {
     expect(demoReducer(atMatches, { type: 'sendOffer', travelerId: yonas })).toBe(atMatches);
   });
 
+  it('an offer gives the traveler view that traveler’s own trip', () => {
+    const atMatches = run([...toPost, { type: 'postPackage', pkg: DIASPORA.packageDraft }]);
+    const toDawit = demoReducer(atMatches, { type: 'sendOffer', travelerId: 'dawit' });
+    expect(toDawit.trips).toEqual(DIASPORA.travelerTrips);
+
+    const toHirut = demoReducer(atMatches, { type: 'sendOffer', travelerId: 'hirut' });
+    expect(toHirut.trips).toEqual([
+      {
+        origin: 'Washington, DC',
+        destination: 'Addis Ababa',
+        departure: '2026-12-05',
+        arrival: '2026-12-06',
+        capacityKg: 5,
+      },
+    ]);
+  });
+
   it('edit package goes back to the form and keeps the package', () => {
     const atMatches = run([...toPost, { type: 'postPackage', pkg: DIASPORA.packageDraft }]);
     const editing = demoReducer(atMatches, { type: 'editPackage' });

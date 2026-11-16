@@ -3,10 +3,8 @@
 import { BadgeCheck, CheckCircle2, Flag, Gavel, LayoutDashboard } from 'lucide-react';
 import { Button, Card } from '@/components/ui';
 import { useDemo } from '@/demo/DemoProvider';
-import { computeFees, formatMoney } from '@/demo/fees';
+import { summaryLines } from '@/demo/summary';
 import type { StoryId } from '@/demo/types';
-
-const first = (name: string) => name.split(' ')[0];
 
 /** Built in the backend but not tapped through here */
 const ALSO_BUILT = [
@@ -19,20 +17,8 @@ export function DoneScreen() {
   const { state, story, dispatch } = useDemo();
   if (story === null || state.pkg === null) return null;
 
-  const traveler = story.travelers.find((t) => t.id === state.chosenTravelerId) ?? story.travelers[0];
-  const fees = state.fees ?? computeFees(state.pkg.reward, story.currency);
-  const money = (n: number) => formatMoney(n, story.currency);
-  const sender = first(story.sender.name);
-  const carrier = first(traveler.name);
   const other: StoryId = story.id === 'diaspora' ? 'domestic' : 'diaspora';
-
-  const recap = [
-    `${sender} verified her identity with Fayda (simulated here) and her phone.`,
-    `Yizzo matched her package with ${carrier}, the best traveler on the route.`,
-    `She paid ${money(fees.total)} into escrow.`,
-    `${carrier} delivered it and received ${money(fees.reward)}; Yizzo kept ${money(fees.fee)}.`,
-    'They rated each other.',
-  ];
+  const recap = summaryLines(state, story);
 
   return (
     <div className="flex flex-1 flex-col gap-5 p-6">

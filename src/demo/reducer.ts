@@ -1,6 +1,6 @@
 import { computeFees } from './fees';
 import { matchTravelers, validatePackage } from './matching';
-import { getStory } from './stories';
+import { getStory, tripsFor } from './stories';
 import type { DemoAction, DemoState, Message, Step, Story, View } from './types';
 
 export const STEPS: readonly Step[] = [
@@ -110,7 +110,15 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
       if (!at('matches', 'sender') || state.pkg === null) return state;
       const fits = matchTravelers(story, state.pkg).some((t) => t.id === action.travelerId);
       if (!fits) return state;
-      return { ...state, chosenTravelerId: action.travelerId, step: 'offerSent' };
+      // The traveler view becomes this traveler's phone: the best match keeps
+      // the trips shown so far (including any posted); anyone else shows their own
+      const best = action.travelerId === story.travelers[0].id;
+      return {
+        ...state,
+        chosenTravelerId: action.travelerId,
+        step: 'offerSent',
+        trips: best ? state.trips : tripsFor(story, action.travelerId),
+      };
     }
 
     case 'switchView':

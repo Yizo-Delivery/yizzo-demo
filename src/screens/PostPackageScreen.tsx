@@ -1,10 +1,10 @@
 'use client';
 
 import { CalendarDays, MapPin, Plus, Trash2 } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { type FormEvent } from 'react';
 import { Button, Card, Field, cx } from '@/components/ui';
 import { formatRange } from '@/demo/dates';
-import { useDemo } from '@/demo/DemoProvider';
+import { useDemo, useDraft } from '@/demo/DemoProvider';
 import { MAX_ITEM_KG, MAX_ITEMS, MIN_ITEM_KG, totalWeight, validatePackage } from '@/demo/matching';
 import type { ItemCategory, PackageDraft } from '@/demo/types';
 
@@ -27,11 +27,12 @@ const weightOk = (s: string) => {
 export function PostPackageScreen() {
   const { state, story, dispatch } = useDemo();
   const start = state.pkg ?? story!.packageDraft;
-  const [items, setItems] = useState<ItemForm[]>(() =>
+  // Drafts, not plain state: edits survive switching to the traveler's phone and back
+  const [items, setItems] = useDraft<ItemForm[]>('package.items', () =>
     start.items.map((item, i) => ({ ...item, key: i, weight: String(item.weightKg) })),
   );
-  const [reward, setReward] = useState(String(start.reward));
-  const [nextKey, setNextKey] = useState(start.items.length);
+  const [reward, setReward] = useDraft('package.reward', () => String(start.reward));
+  const [nextKey, setNextKey] = useDraft('package.nextKey', () => start.items.length);
   if (story === null) return null;
 
   const draft: PackageDraft = {

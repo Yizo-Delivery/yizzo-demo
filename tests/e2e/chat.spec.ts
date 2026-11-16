@@ -16,8 +16,8 @@ test('chat opens with the seeded conversation', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Message Dawit' })).toBeVisible();
   await openChat(page);
   await expect(page.getByRole('heading', { name: 'Dawit Bekele' })).toBeVisible();
-  await expect(thread(page)).toContainText('Hi Selam! I fly out Dec 4 from Dulles.');
-  await expect(thread(page)).toContainText('Great. My mom can meet you near Bole on Friday.');
+  await expect(thread(page)).toContainText('Hi Selam! Happy to carry this for you.');
+  await expect(thread(page)).toContainText('Great. My mom can meet you near Bole when you land.');
 });
 
 test('a sent message shows in the other view', async ({ page }) => {
