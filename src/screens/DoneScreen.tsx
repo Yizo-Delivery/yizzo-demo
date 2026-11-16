@@ -12,7 +12,7 @@ const first = (name: string) => name.split(' ')[0];
 const ALSO_BUILT = [
   { Icon: Gavel, text: 'Disputes freeze the escrow, and an admin resolves them.' },
   { Icon: Flag, text: 'Users can report someone, and admins can take content down.' },
-  { Icon: LayoutDashboard, text: 'An admin dashboard with an audit log of every action.' },
+  { Icon: LayoutDashboard, text: 'Admin tools (an API for now), with an audit log of every admin action.' },
 ];
 
 export function DoneScreen() {
@@ -27,7 +27,7 @@ export function DoneScreen() {
   const other: StoryId = story.id === 'diaspora' ? 'domestic' : 'diaspora';
 
   const recap = [
-    `${sender} verified her identity with Fayda and her phone.`,
+    `${sender} verified her identity with Fayda (simulated here) and her phone.`,
     `Yizzo matched her package with ${carrier}, the best traveler on the route.`,
     `She paid ${money(fees.total)} into escrow.`,
     `${carrier} delivered it and received ${money(fees.reward)}; Yizzo kept ${money(fees.fee)}.`,

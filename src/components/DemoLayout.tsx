@@ -1,6 +1,7 @@
 'use client';
 
 import { MessageCircle, RotateCcw } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import { useDemo } from '@/demo/DemoProvider';
 import { guideFor } from '@/demo/guide';
 import { reached } from '@/demo/reducer';
@@ -53,6 +54,14 @@ export function DemoLayout() {
   const { state, story } = useDemo();
   const guide = guideFor(state, story);
   const showRestart = state.step !== 'start';
+  const main = useRef<HTMLElement>(null);
+
+  // Every new screen starts at the top: the page scrolls on a phone, the
+  // app's <main> inside the laptop frame
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    main.current?.scrollTo(0, 0);
+  }, [state.step, state.view, state.panel, state.storyId]);
 
   return (
     <div className="flex min-h-dvh flex-col md:flex-row md:items-center md:justify-center md:gap-12 md:p-8">
@@ -82,7 +91,7 @@ export function DemoLayout() {
             <ViewSwitch />
           </header>
         )}
-        <main className="flex flex-1 flex-col overflow-y-auto">
+        <main ref={main} className="flex flex-1 flex-col overflow-y-auto">
           <ScreenRouter />
         </main>
       </div>

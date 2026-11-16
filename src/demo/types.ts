@@ -125,7 +125,9 @@ export type DemoAction =
   | { type: 'openPanel'; panel: Exclude<Panel, null> }
   | { type: 'closePanel' }
   | { type: 'sendMessage'; text: string }
-  | { type: 'advanceDelivery' } // paid → pickedUp → inTransit → delivered
+  // paid → pickedUp → inTransit → delivered; `from` is the step the tap was
+  // made on, so a second tap of the same button is ignored
+  | { type: 'advanceDelivery'; from: Step }
   | { type: 'confirmDelivery' }
   | { type: 'rate'; rating: Rating }
   | { type: 'postTrip'; trip: Trip }

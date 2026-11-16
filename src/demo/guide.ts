@@ -1,3 +1,4 @@
+import { matchTravelers } from './matching';
 import type { DemoState, Step, Story, View } from './types';
 
 export interface Guide {
@@ -28,7 +29,7 @@ const ENTRIES: Record<Exclude<Step, 'start'>, Entry> = {
   verify: () => ({
     who: 'sender',
     title: 'Verify identity',
-    body: "Yizzo checks every user against Fayda, Ethiopia's national ID, so each person has one account. This screen simulates that sign-in.",
+    body: "Yizzo verifies every user with Fayda, Ethiopia's national ID, so each person has one account. The sign-in is simulated here: the backend is ready for it, and connecting the real Fayda service is pending.",
     action: 'Tap Verify with Fayda, allow, then Continue.',
   }),
   phone: () => ({
@@ -130,7 +131,13 @@ export function guideFor(state: DemoState, story: Story | null): Guide {
 
   const traveler = story.travelers.find((t) => t.id === state.chosenTravelerId) ?? story.travelers[0];
   const names: Names = { sender: first(story.sender.name), traveler: first(traveler.name) };
-  const { action, ...entry } = ENTRIES[state.step](names, state);
+  let { action, ...entry } = ENTRIES[state.step](names, state);
+
+  // A package too heavy for everyone: say so, as the matches screen does
+  if (state.step === 'matches' && state.pkg !== null && matchTravelers(story, state.pkg).length === 0) {
+    entry = { ...entry, body: 'No traveler on this route has room for a package this heavy.' };
+    action = 'Tap Edit package and make it lighter.';
+  }
 
   const next =
     entry.who !== null && entry.who !== state.view

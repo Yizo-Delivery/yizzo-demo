@@ -30,9 +30,9 @@ describe('demoReducer', () => {
       { type: 'sendMessage', text: 'See you there' },
       { type: 'closePanel' },
       { type: 'switchView', view: 'traveler' },
-      { type: 'advanceDelivery' },
-      { type: 'advanceDelivery' },
-      { type: 'advanceDelivery' },
+      { type: 'advanceDelivery', from: 'paid' },
+      { type: 'advanceDelivery', from: 'pickedUp' },
+      { type: 'advanceDelivery', from: 'inTransit' },
       { type: 'switchView', view: 'sender' },
       { type: 'confirmDelivery' },
       { type: 'rate', rating: { stars: 5, review: 'Smooth and on time' } },
@@ -62,6 +62,13 @@ describe('demoReducer', () => {
     const paid = run(toPaid);
     expect(paid.step).toBe('paid');
     expect(demoReducer(paid, { type: 'payEscrow' })).toBe(paid);
+  });
+
+  it('a repeated delivery step moves the package only once', () => {
+    const traveling = run([...toPaid, { type: 'switchView', view: 'traveler' }]);
+    const once = demoReducer(traveling, { type: 'advanceDelivery', from: 'paid' });
+    expect(once.step).toBe('pickedUp');
+    expect(demoReducer(once, { type: 'advanceDelivery', from: 'paid' })).toBe(once);
   });
 
   it('ignores actions from the wrong view', () => {
@@ -131,9 +138,9 @@ describe('demoReducer', () => {
     const released = run([
       ...toPaid,
       { type: 'switchView', view: 'traveler' },
-      { type: 'advanceDelivery' },
-      { type: 'advanceDelivery' },
-      { type: 'advanceDelivery' },
+      { type: 'advanceDelivery', from: 'paid' },
+      { type: 'advanceDelivery', from: 'pickedUp' },
+      { type: 'advanceDelivery', from: 'inTransit' },
       { type: 'switchView', view: 'sender' },
       { type: 'confirmDelivery' },
     ]);

@@ -156,7 +156,7 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
 
     case 'advanceDelivery': {
       const next = DELIVERY_NEXT[state.step];
-      if (next === undefined || state.view !== 'traveler') return state;
+      if (next === undefined || state.view !== 'traveler' || action.from !== state.step) return state;
       return { ...state, step: next };
     }
 

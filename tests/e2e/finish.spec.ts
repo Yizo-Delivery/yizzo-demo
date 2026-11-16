@@ -55,6 +55,9 @@ test('ratings are hidden until both have rated', async ({ page }) => {
 test('the done screen offers the other story', async ({ page }) => {
   await walkTo(page, 'diaspora', 'done');
   await expect(page.getByText('Disputes freeze the escrow')).toBeVisible();
+  // Honest about what exists: admin tools are an API for now, and Fayda is simulated here
+  await expect(page.getByText('Admin tools (an API for now), with an audit log of every admin action.')).toBeVisible();
+  await expect(page.getByText(/with Fayda \(simulated here\)/)).toBeVisible();
   await page.getByRole('button', { name: 'Try the other story' }).click();
   await expect(page.getByLabel('Full name')).toHaveValue('Meron Haile');
 });

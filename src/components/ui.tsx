@@ -1,5 +1,14 @@
+'use client';
+
 import { Star } from 'lucide-react';
-import { useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from 'react';
+import {
+  useEffect,
+  useId,
+  useState,
+  type ButtonHTMLAttributes,
+  type InputHTMLAttributes,
+  type ReactNode,
+} from 'react';
 
 const cx = (...classes: (string | false | null | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -7,14 +16,29 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary';
 };
 
-export function Button({ variant = 'primary', className, type = 'button', ...props }: ButtonProps) {
+/**
+ * How long a newly shown button ignores taps. The next screen's button often
+ * appears right where the last one was, so without this the second tap of a
+ * double tap (100–250 ms apart) would skip a screen.
+ */
+export const ARM_MS = 350;
+
+export function Button({ variant = 'primary', className, type = 'button', disabled, ...props }: ButtonProps) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setArmed(true), ARM_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <button
       type={type}
+      // Not armed yet: inert, but drawn as enabled so nothing flickers
+      disabled={disabled || !armed}
       className={cx(
         'inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 text-base font-semibold transition-colors',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
-        'disabled:cursor-not-allowed disabled:opacity-40',
+        disabled && 'cursor-not-allowed opacity-40',
         variant === 'primary'
           ? 'bg-brand text-white hover:bg-brand/90'
           : 'border border-brand/30 bg-white text-brand hover:bg-brand-soft',

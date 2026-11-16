@@ -82,7 +82,13 @@ export function DeliveryScreen() {
             </p>
           </Card>
           {next ? (
-            <Button className="mt-auto" onClick={() => dispatch({ type: 'advanceDelivery' })}>
+            // Keyed by step: each stage gets a fresh button, which the Button's
+            // arming delay keeps from catching the second tap of a double tap
+            <Button
+              key={state.step}
+              className="mt-auto"
+              onClick={() => dispatch({ type: 'advanceDelivery', from: state.step })}
+            >
               {next.action}
             </Button>
           ) : (

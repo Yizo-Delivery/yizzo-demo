@@ -93,7 +93,8 @@ export function EscrowScreen() {
           <p className="text-stone-800">Yizzo keeps the money until you confirm delivery.</p>
         </Card>
       ) : (
-        <Button className="mt-auto" onClick={() => dispatch({ type: 'payEscrow' })}>
+        // Keyed so it's always a fresh button, never the Confirm button relabeled
+        <Button key="pay" className="mt-auto" onClick={() => dispatch({ type: 'payEscrow' })}>
           <Lock aria-hidden className="size-5" />
           Pay {formatMoney(fees.total, story.currency)} into escrow
         </Button>

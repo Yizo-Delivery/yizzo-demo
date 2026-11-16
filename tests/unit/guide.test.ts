@@ -50,6 +50,23 @@ describe('guideFor', () => {
     }
   });
 
+  it('says to edit the package when no traveler has room', () => {
+    const heavy = {
+      ...DIASPORA.packageDraft,
+      items: [{ category: 'Electronics' as const, description: 'Laptop', weightKg: 9 }],
+    };
+    const g = guideFor(at('matches', { pkg: heavy }), DIASPORA);
+    expect(g.next).toBe('Tap Edit package and make it lighter.');
+    expect(g.body).toMatch(/No traveler on this route has room/);
+
+    const fits = guideFor(at('matches', { pkg: DIASPORA.packageDraft }), DIASPORA);
+    expect(fits.next).toBe('Send an offer to Dawit.');
+  });
+
+  it('says the Fayda step is simulated', () => {
+    expect(guideFor(at('verify'), DIASPORA).body).toMatch(/simulated/);
+  });
+
   it('a fresh story starts at sign-up with the sender acting', () => {
     const s = demoReducer(initialState, { type: 'chooseStory', story: 'diaspora' });
     expect(guideFor(s, DIASPORA).who).toBe('sender');
