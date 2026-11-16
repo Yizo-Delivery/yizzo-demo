@@ -29,13 +29,13 @@ const ENTRIES: Record<Exclude<Step, 'start'>, Entry> = {
     who: 'sender',
     title: 'Verify identity',
     body: "Yizzo checks every user against Fayda, Ethiopia's national ID, so each person has one account. This screen simulates that sign-in.",
-    action: 'Tap Verify with Fayda, then Allow.',
+    action: 'Tap Verify with Fayda, allow, then Continue.',
   }),
   phone: () => ({
     who: 'sender',
     title: 'Confirm the phone',
     body: 'A code goes to the phone number on the national ID. Once it is confirmed, the account is active.',
-    action: 'Fill in the code and tap Confirm.',
+    action: 'Fill in the code, tap Confirm, then Continue.',
   }),
   post: ({ sender }) => ({
     who: 'sender',

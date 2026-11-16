@@ -1,8 +1,10 @@
 'use client';
 
 import { useDemo } from '@/demo/DemoProvider';
+import { PhoneScreen } from './PhoneScreen';
 import { SignUpScreen } from './SignUpScreen';
 import { StartScreen } from './StartScreen';
+import { VerifyScreen } from './VerifyScreen';
 
 /** Stands in for screens later tasks add */
 function Placeholder({ name }: { name: string }) {
@@ -24,6 +26,10 @@ export function ScreenRouter() {
       return <StartScreen />;
     case 'signup':
       return <SignUpScreen />;
+    case 'verify':
+      return <VerifyScreen />;
+    case 'phone':
+      return <PhoneScreen />;
     default:
       return <Placeholder name={`${state.step}, ${state.view}`} />;
   }
