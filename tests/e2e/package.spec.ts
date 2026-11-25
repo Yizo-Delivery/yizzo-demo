@@ -8,12 +8,15 @@ test('the form is prefilled and shows the total weight', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
   await expect(item(page, 1).getByLabel('Item name')).toHaveValue('Laptop');
   await expect(item(page, 2).getByLabel('Weight (kg)')).toHaveValue('0.8');
-  await expect(page.getByLabel('Reward (USD)')).toHaveValue('60');
-  await expect(page.getByText('Washington, DC → Addis Ababa')).toBeVisible();
+  await expect(item(page, 1).getByLabel('Item value (USD)')).toHaveValue('450');
   await expect(page.getByText('Total weight: 3 kg')).toBeVisible();
 
   await item(page, 1).getByLabel('Weight (kg)').fill('4.2');
   await expect(page.getByText('Total weight: 5 kg')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByLabel('Reward (USD)')).toHaveValue('60');
+  await expect(page.getByText('Washington, DC → Addis Ababa')).toBeVisible();
 });
 
 test('shows three ranked travelers with Dawit first', async ({ page }) => {
@@ -30,6 +33,8 @@ test('shows three ranked travelers with Dawit first', async ({ page }) => {
 test('no room → edit package', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
   await item(page, 1).getByLabel('Weight (kg)').fill('30');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Find travelers' }).click();
 
   await expect(page.getByText('No traveler has room for 30.8 kg on this route yet.')).toBeVisible();
@@ -38,28 +43,25 @@ test('no room → edit package', async ({ page }) => {
   await expect(item(page, 1).getByLabel('Weight (kg)')).toHaveValue('30');
 });
 
-test('a weight of 0 blocks Find travelers', async ({ page }) => {
+test('an empty name stops Next, and an empty reward stops Preferences', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
-  await item(page, 1).getByLabel('Weight (kg)').fill('0');
-  await expect(page.getByText('Enter a weight between 0.1 and 30 kg')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Find travelers' })).toBeDisabled();
-});
-
-test('an empty reward or description blocks Find travelers', async ({ page }) => {
-  await walkTo(page, 'diaspora', 'post');
-  await page.getByLabel('Reward (USD)').fill('');
-  await expect(page.getByText('Enter a reward')).toBeVisible();
-  await page.getByLabel('Reward (USD)').fill('75');
   await item(page, 2).getByLabel('Item name').fill('');
   await expect(page.getByText('Name each item')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Find travelers' })).toBeDisabled();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(item(page, 2)).toBeVisible();
+  await item(page, 2).getByLabel('Item name').fill('Medicine');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByLabel('Reward (USD)').fill('');
+  await expect(page.getByText('Enter a reward')).toBeVisible();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByLabel('Reward (USD)')).toBeVisible();
 });
 
 test('items can be added up to three and removed down to one', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
-  await page.getByRole('button', { name: 'Add item' }).click();
+  await page.getByRole('button', { name: 'Add another item' }).click();
   await expect(item(page, 3)).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Add item' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Add another item' })).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Remove item 3' }).click();
   await page.getByRole('button', { name: 'Remove item 2' }).click();

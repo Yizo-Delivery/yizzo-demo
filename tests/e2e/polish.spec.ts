@@ -6,14 +6,13 @@ const item = (page: Page, n: number) => page.getByRole('group', { name: `Item ${
 test('package edits survive switching sides', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
   await item(page, 1).getByLabel('Weight (kg)').fill('4.2');
-  await page.getByLabel('Reward (USD)').fill('75');
   await expect(page.getByText('Total weight: 5 kg')).toBeVisible();
 
   await page.getByRole('button', { name: /^Traveler ·/ }).click();
   await page.getByRole('button', { name: /^Sender ·/ }).click();
 
+  // The reward, on the Preferences step, is covered in send-form.spec.ts
   await expect(item(page, 1).getByLabel('Weight (kg)')).toHaveValue('4.2');
-  await expect(page.getByLabel('Reward (USD)')).toHaveValue('75');
   await expect(page.getByText('Total weight: 5 kg')).toBeVisible();
 });
 
@@ -51,7 +50,9 @@ test('on a phone, tapping the banner switches to whoever is next', async ({ page
 test('a reward with cents and a weight like 2.25 are accepted', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
   await item(page, 1).getByLabel('Weight (kg)').fill('2.25');
+  await page.getByRole('button', { name: 'Next' }).click();
   await page.getByLabel('Reward (USD)').fill('60.50');
+  await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Find travelers' }).click();
   await expect(page.getByRole('article', { name: 'Dawit Bekele' })).toBeVisible();
 });

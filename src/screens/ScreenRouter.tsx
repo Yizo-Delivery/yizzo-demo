@@ -9,7 +9,7 @@ import { EscrowScreen } from './EscrowScreen';
 import { HomeScreen } from './HomeScreen';
 import { MatchesScreen } from './MatchesScreen';
 import { PhoneScreen } from './PhoneScreen';
-import { PostPackageScreen } from './PostPackageScreen';
+import { SendItemScreen } from './SendItemScreen';
 import { PostTripScreen } from './PostTripScreen';
 import { RatingScreen } from './RatingScreen';
 import { SignUpScreen } from './SignUpScreen';
@@ -54,7 +54,7 @@ export function ScreenRouter() {
     case 'home':
       return <HomeScreen />;
     case 'post':
-      return <PostPackageScreen />;
+      return <SendItemScreen />;
     case 'matches':
     case 'offerSent':
       return <MatchesScreen />;

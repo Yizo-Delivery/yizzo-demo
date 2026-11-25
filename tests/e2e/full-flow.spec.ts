@@ -34,6 +34,8 @@ for (const c of CASES) {
 
     // Package and matches
     await tap(page, /^Send an Item/);
+    await tap(page, 'Next');
+    await tap(page, 'Next');
     await tap(page, 'Find travelers');
     const cards = page.getByRole('article');
     await expect(cards).toHaveCount(3);
@@ -93,6 +95,8 @@ test('restart partway clears the delivery', async ({ page }) => {
   await tap(page, 'Confirm');
   await tap(page, 'Continue');
   await tap(page, /^Send an Item/);
+  await tap(page, 'Next');
+  await tap(page, 'Next');
   await tap(page, 'Find travelers');
   await page.getByRole('article').first().getByRole('button', { name: 'Send offer' }).click();
   await tap(page, 'Message Dawit');
@@ -113,6 +117,8 @@ test('restart partway clears the delivery', async ({ page }) => {
   await tap(page, 'Continue');
   await expect(page.getByRole('button', { name: /^Message / })).toHaveCount(0);
   await tap(page, /^Send an Item/);
+  await tap(page, 'Next');
+  await tap(page, 'Next');
   await tap(page, 'Find travelers');
   await expect(page.getByText('Offer sent')).toHaveCount(0);
   await page.getByRole('article').first().getByRole('button', { name: 'Send offer' }).click();

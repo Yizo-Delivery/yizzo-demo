@@ -10,7 +10,7 @@ test('Send an Item starts the form', async ({ page }) => {
   await walkTo(page, 'diaspora', 'home');
   await page.getByRole('button', { name: /^Send an Item/ }).click();
   await expect(nextStep(page)).toHaveText('Check the item, tap Next twice, then Find travelers.');
-  await expect(page.getByRole('button', { name: 'Find travelers' })).toBeVisible();
+  await expect(page.getByRole('list', { name: 'Steps' }).locator('[aria-current="step"]')).toContainText('Item details');
 });
 
 test("Traveling Soon? switches to the traveler's phone", async ({ page }) => {

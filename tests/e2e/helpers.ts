@@ -44,6 +44,8 @@ const LEGS: [Step, Leg][] = [
   [
     'matches',
     async (page) => {
+      await page.getByRole('button', { name: 'Next' }).click();
+      await page.getByRole('button', { name: 'Next' }).click();
       await page.getByRole('button', { name: 'Find travelers' }).click();
       await expect(page.getByRole('article').first()).toBeVisible();
     },
@@ -140,8 +142,12 @@ export async function walkTo(page: Page, story: StoryId, step: Step): Promise<vo
   if (step === 'start') return;
 
   await pickStory(page, story);
-  if (step === 'signup') return;
+  await continueTo(page, step);
+}
 
+/** From sign-up (a story just picked) to `step`, without reloading the page */
+export async function continueTo(page: Page, step: Step): Promise<void> {
+  if (step === 'signup') return;
   const last = LEGS.findIndex(([s]) => s === step);
   if (last === -1) throw new Error(`walkTo doesn't reach "${step}" yet`);
   for (const [, leg] of LEGS.slice(0, last + 1)) await leg(page);
