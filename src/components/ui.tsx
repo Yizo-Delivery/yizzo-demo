@@ -4,6 +4,7 @@ import { Star } from 'lucide-react';
 import {
   useEffect,
   useId,
+  useRef,
   useState,
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
@@ -14,6 +15,8 @@ const cx = (...classes: (string | false | null | undefined)[]) => classes.filter
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary';
+  /** Take focus once armed (a disabled button can't be focused before that) */
+  focusWhenArmed?: boolean;
 };
 
 /**
@@ -23,15 +26,27 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  */
 export const ARM_MS = 350;
 
-export function Button({ variant = 'primary', className, type = 'button', disabled, ...props }: ButtonProps) {
+export function Button({
+  variant = 'primary',
+  className,
+  type = 'button',
+  disabled,
+  focusWhenArmed = false,
+  ...props
+}: ButtonProps) {
   const [armed, setArmed] = useState(false);
+  const self = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const timer = setTimeout(() => setArmed(true), ARM_MS);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    if (armed && focusWhenArmed) self.current?.focus();
+  }, [armed, focusWhenArmed]);
 
   return (
     <button
+      ref={self}
       type={type}
       // Not armed yet: inert, but drawn as enabled so nothing flickers
       disabled={disabled || !armed}

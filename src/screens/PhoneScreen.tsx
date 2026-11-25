@@ -9,6 +9,8 @@ export function PhoneScreen() {
   const { state, story, dispatch } = useDemo();
   const [code, setCode] = useState('');
   const [active, setActive] = useState(false);
+  // The code that was rejected: the message goes once the code changes
+  const [rejected, setRejected] = useState<string | null>(null);
   if (story === null) return null;
 
   const complete = /^\d{6}$/.test(code);
@@ -19,7 +21,10 @@ export function PhoneScreen() {
     // The right code shows the success state first; Continue moves on.
     // A wrong one goes to the reducer, which records the error.
     if (code === story.phoneCode) setActive(true);
-    else dispatch({ type: 'confirmPhone', code });
+    else {
+      setRejected(code);
+      dispatch({ type: 'confirmPhone', code });
+    }
   };
 
   if (active) {
@@ -51,7 +56,7 @@ export function PhoneScreen() {
         maxLength={6}
         value={code}
         onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-        error={state.codeError ? "That code isn't right" : null}
+        error={state.codeError && code === rejected ? "That code isn't right" : null}
         className="[&_input]:text-center [&_input]:text-2xl [&_input]:tracking-[0.4em]"
       />
 

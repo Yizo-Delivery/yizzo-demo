@@ -38,7 +38,7 @@ export function ViewSwitch() {
           >
             {label}
             {wanted && (
-              <span aria-hidden className="absolute top-1.5 right-2 size-2.5 animate-pulse rounded-full bg-accent" />
+              <span aria-hidden className="absolute top-1.5 right-2 size-2.5 motion-safe:animate-pulse rounded-full bg-accent" />
             )}
           </button>
         );

@@ -25,7 +25,7 @@ export function ChatScreen() {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!canSend) return;
-    dispatch({ type: 'sendMessage', text });
+    dispatch({ type: 'sendMessage', text, at: new Date().toISOString() });
     setText('');
   };
 

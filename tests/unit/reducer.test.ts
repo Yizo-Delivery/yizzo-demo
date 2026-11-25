@@ -3,6 +3,8 @@ import { demoReducer, initialState } from '@/demo/reducer';
 import { DIASPORA } from '@/demo/stories';
 import type { DemoAction, DemoState } from '@/demo/types';
 
+const AT = '2026-12-04T09:30:00.000Z';
+
 const run = (actions: DemoAction[], from: DemoState = initialState) => actions.reduce(demoReducer, from);
 
 const toPost: DemoAction[] = [
@@ -27,7 +29,7 @@ describe('demoReducer', () => {
     const done = run([
       ...toPaid,
       { type: 'openPanel', panel: 'chat' },
-      { type: 'sendMessage', text: 'See you there' },
+      { type: 'sendMessage', at: AT, text: 'See you there' },
       { type: 'closePanel' },
       { type: 'switchView', view: 'traveler' },
       { type: 'advanceDelivery', from: 'paid' },
@@ -133,19 +135,24 @@ describe('demoReducer', () => {
 
   it('rejects an empty or 2001-character message', () => {
     const chatting = run([...toPaid, { type: 'openPanel', panel: 'chat' }]);
-    expect(demoReducer(chatting, { type: 'sendMessage', text: '   ' })).toBe(chatting);
-    expect(demoReducer(chatting, { type: 'sendMessage', text: 'x'.repeat(2001) })).toBe(chatting);
-    expect(demoReducer(chatting, { type: 'sendMessage', text: 'x'.repeat(2000) }).messages).toHaveLength(
+    expect(demoReducer(chatting, { type: 'sendMessage', at: AT, text: '   ' })).toBe(chatting);
+    expect(demoReducer(chatting, { type: 'sendMessage', at: AT, text: 'x'.repeat(2001) })).toBe(chatting);
+    expect(demoReducer(chatting, { type: 'sendMessage', at: AT, text: 'x'.repeat(2000) }).messages).toHaveLength(
       chatting.messages.length + 2,
     );
+  });
+
+  it('stamps messages with the time the action carries', () => {
+    const chatting = run([...toPaid, { type: 'openPanel', panel: 'chat' }, { type: 'sendMessage', at: AT, text: 'Hi' }]);
+    expect(chatting.messages.slice(-2).map((m) => m.at)).toEqual([AT, AT]);
   });
 
   it('adds the canned reply only once', () => {
     const chatting = run([
       ...toPaid,
       { type: 'openPanel', panel: 'chat' },
-      { type: 'sendMessage', text: 'First' },
-      { type: 'sendMessage', text: 'Second' },
+      { type: 'sendMessage', at: AT, text: 'First' },
+      { type: 'sendMessage', at: AT, text: 'Second' },
     ]);
     expect(chatting.messages.filter((m) => m.text === DIASPORA.cannedReply)).toHaveLength(1);
     expect(chatting.messages.at(-1)?.text).toBe('Second');

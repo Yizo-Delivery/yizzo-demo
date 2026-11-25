@@ -24,3 +24,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
 }
+
+/* Headings take focus when a new screen opens (for screen readers); no ring for that */
+h1[tabindex="-1"]:focus {
+  outline: none;
+}

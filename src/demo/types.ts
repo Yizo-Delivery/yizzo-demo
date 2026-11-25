@@ -124,7 +124,7 @@ export type DemoAction =
   | { type: 'payEscrow' }
   | { type: 'openPanel'; panel: Exclude<Panel, null> }
   | { type: 'closePanel' }
-  | { type: 'sendMessage'; text: string }
+  | { type: 'sendMessage'; text: string; /** ISO time, stamped by the screen so the reducer stays pure */ at: string }
   // paid → pickedUp → inTransit → delivered; `from` is the step the tap was
   // made on, so a second tap of the same button is ignored
   | { type: 'advanceDelivery'; from: Step }

@@ -1,7 +1,7 @@
 'use client';
 
 import { BadgeCheck, Fingerprint, ShieldCheck } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState, type KeyboardEvent } from 'react';
 import { Button } from '@/components/ui';
 import { useDemo } from '@/demo/DemoProvider';
 
@@ -9,9 +9,34 @@ const SHARED = ['Full name', 'Date of birth', 'Phone number'];
 
 /** Stands in for the provider's own pages; clearly labeled, no official logo */
 function FaydaSheet({ onAllow, onCancel }: { onAllow: () => void; onCancel: () => void }) {
+  const sheet = useRef<HTMLDivElement>(null);
+  const buttons = () => [...(sheet.current?.querySelectorAll('button') ?? [])];
+
+  // A modal: Escape cancels, and Tab stays inside the sheet
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      onCancel();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const all = buttons();
+    const first = all[0];
+    const last = all.at(-1);
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last?.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first?.focus();
+    }
+  };
+
   return (
     <div className="absolute inset-0 z-30 flex items-end bg-black/40">
       <div
+        ref={sheet}
+        onKeyDown={onKeyDown}
         role="dialog"
         aria-modal="true"
         aria-labelledby="fayda-sheet-title"
@@ -34,7 +59,9 @@ function FaydaSheet({ onAllow, onCancel }: { onAllow: () => void; onCancel: () =
         </ul>
         <p className="text-sm text-stone-500">Your ID number itself is never stored by Yizzo.</p>
         <div className="flex flex-col gap-2">
-          <Button onClick={onAllow}>Allow</Button>
+          <Button focusWhenArmed onClick={onAllow}>
+            Allow
+          </Button>
           <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
@@ -48,6 +75,7 @@ export function VerifyScreen() {
   const { dispatch } = useDemo();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [verified, setVerified] = useState(false);
+  const opener = useRef<HTMLDivElement>(null);
 
   return (
     <div className="flex flex-1 flex-col gap-5 p-6">
@@ -73,7 +101,7 @@ export function VerifyScreen() {
         </div>
       )}
 
-      <div className="mt-auto">
+      <div ref={opener} className="mt-auto">
         {verified ? (
           <Button onClick={() => dispatch({ type: 'verifyIdentity' })}>Continue</Button>
         ) : (
@@ -87,7 +115,10 @@ export function VerifyScreen() {
             setSheetOpen(false);
             setVerified(true);
           }}
-          onCancel={() => setSheetOpen(false)}
+          onCancel={() => {
+            setSheetOpen(false);
+            opener.current?.querySelector('button')?.focus();
+          }}
         />
       )}
     </div>

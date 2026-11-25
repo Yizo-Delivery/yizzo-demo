@@ -53,11 +53,11 @@ const DELIVERY_NEXT: Partial<Record<Step, Step>> = {
   inTransit: 'delivered',
 };
 
-const message = (state: DemoState, from: View, text: string, offset = 0): Message => ({
+const message = (state: DemoState, from: View, text: string, at: string, offset = 0): Message => ({
   id: `msg-${state.messages.length + 1 + offset}`,
   from,
   text,
-  at: new Date().toISOString(),
+  at,
 });
 
 /**
@@ -154,9 +154,9 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
     case 'sendMessage': {
       const text = action.text.trim();
       if (state.panel !== 'chat' || text.length === 0 || text.length > MAX_MESSAGE_LENGTH) return state;
-      const sent = message(state, state.view, text);
+      const sent = message(state, state.view, text, action.at);
       if (state.view === 'sender' && !state.replied) {
-        const reply = message(state, 'traveler', story.cannedReply, 1);
+        const reply = message(state, 'traveler', story.cannedReply, action.at, 1);
         return { ...state, messages: [...state.messages, sent, reply], replied: true };
       }
       return { ...state, messages: [...state.messages, sent] };

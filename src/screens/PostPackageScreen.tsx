@@ -52,7 +52,7 @@ export function PostPackageScreen() {
   };
 
   return (
-    <form onSubmit={submit} className="flex flex-1 flex-col gap-5 p-6">
+    <form onSubmit={submit} noValidate className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Send a package</h1>
         <p className="text-stone-600">Tell travelers what you&apos;re sending and what you&apos;ll pay.</p>
@@ -138,7 +138,7 @@ export function PostPackageScreen() {
         </Button>
       )}
 
-      <p className={cx('font-semibold', weight === null && 'text-stone-400')}>
+      <p className={cx('font-semibold', weight === null && 'text-stone-500')}>
         {weight === null ? 'Total weight: –' : `Total weight: ${weight} kg`}
       </p>
 

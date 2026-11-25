@@ -31,7 +31,7 @@ export function PostTripScreen() {
   };
 
   return (
-    <form onSubmit={submit} className="flex flex-1 flex-col gap-4 p-6">
+    <form onSubmit={submit} noValidate className="flex flex-1 flex-col gap-4 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Post a trip</h1>
         <p className="text-stone-600">Senders on your route will be able to offer you packages.</p>
