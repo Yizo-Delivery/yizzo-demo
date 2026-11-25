@@ -256,4 +256,11 @@ describe('demoReducer', () => {
     const switched = demoReducer(trips, { type: 'switchView', view: 'traveler' });
     expect(switched.panel).toBeNull();
   });
+
+  it('startSend closes an open tab panel', () => {
+    const search = demoReducer(run(toHome), { type: 'openPanel', panel: 'search' });
+    const post = demoReducer(search, { type: 'startSend' });
+    expect(post.step).toBe('post');
+    expect(post.panel).toBeNull();
+  });
 });

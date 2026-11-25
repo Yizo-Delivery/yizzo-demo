@@ -13,6 +13,7 @@ import { SendItemScreen } from './SendItemScreen';
 import { PostTripScreen } from './PostTripScreen';
 import { RatingScreen } from './RatingScreen';
 import { SignUpScreen } from './SignUpScreen';
+import { ProfilePanel, SearchPanel, TripsPanel } from './TabPanels';
 import { WelcomeScreen } from './WelcomeScreen';
 import { TravelerHomeScreen } from './TravelerHomeScreen';
 import { VerifyScreen } from './VerifyScreen';
@@ -21,6 +22,9 @@ import { VerifyScreen } from './VerifyScreen';
 export function ScreenRouter() {
   const { state } = useDemo();
 
+  if (state.panel === 'search') return <SearchPanel />;
+  if (state.panel === 'trips') return <TripsPanel />;
+  if (state.panel === 'profile') return <ProfilePanel />;
   if (state.panel === 'postTrip') return <PostTripScreen />;
   if (state.panel === 'chat') return <ChatScreen />;
 

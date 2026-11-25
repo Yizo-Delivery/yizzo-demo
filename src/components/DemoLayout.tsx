@@ -4,9 +4,10 @@ import { MessageCircle, RotateCcw } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useDemo } from '@/demo/DemoProvider';
 import { guideFor } from '@/demo/guide';
-import { reached } from '@/demo/reducer';
+import { isTabPanel, reached } from '@/demo/reducer';
 import { ScreenRouter } from '@/screens/ScreenRouter';
 import { Logo } from './Logo';
+import { TabBar } from './TabBar';
 import { ViewSwitch } from './ViewSwitch';
 import { cx } from './ui';
 
@@ -58,7 +59,10 @@ export function DemoLayout() {
   const main = useRef<HTMLElement>(null);
   const firstScreen = useRef(true);
   // When it's the other side's turn, the phone banner switches to them
-  const switchTo = guide.who !== null && guide.who !== state.view && reached(state, 'home') ? guide.who : null;
+  const switchTo =
+    guide.who !== null && guide.who !== state.view && reached(state, 'home') && !isTabPanel(state.panel)
+      ? guide.who
+      : null;
 
   // Every new screen starts at the top: the page scrolls on a phone, the
   // app's <main> inside the laptop frame. Focus moves to its heading so a
@@ -120,6 +124,7 @@ export function DemoLayout() {
         <main ref={main} className="flex flex-1 flex-col overflow-y-auto">
           <ScreenRouter />
         </main>
+        <TabBar />
       </div>
 
       {/* Laptop: the guide beside the phone */}

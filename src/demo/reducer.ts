@@ -104,7 +104,7 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
 
     case 'startSend':
       if (!at('home', 'sender')) return state;
-      return { ...state, step: 'post' };
+      return { ...state, step: 'post', panel: null };
 
     case 'postPackage':
       if (!at('post', 'sender') || validatePackage(action.pkg).length > 0) return state;
@@ -112,7 +112,7 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
 
     case 'editPackage':
       if (!at('matches', 'sender')) return state;
-      return { ...state, step: 'post' };
+      return { ...state, step: 'post', panel: null };
 
     case 'sendOffer': {
       if (!at('matches', 'sender') || state.pkg === null) return state;
