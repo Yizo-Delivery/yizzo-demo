@@ -57,7 +57,7 @@ export function DemoLayout() {
   const main = useRef<HTMLElement>(null);
   const firstScreen = useRef(true);
   // When it's the other side's turn, the phone banner switches to them
-  const switchTo = guide.who !== null && guide.who !== state.view && reached(state, 'post') ? guide.who : null;
+  const switchTo = guide.who !== null && guide.who !== state.view && reached(state, 'home') ? guide.who : null;
 
   // Every new screen starts at the top: the page scrolls on a phone, the
   // app's <main> inside the laptop frame. Focus moves to its heading so a

@@ -6,15 +6,13 @@ import { Button, Card, Field, cx } from '@/components/ui';
 import { formatRange } from '@/demo/dates';
 import { useDemo, useDraft } from '@/demo/DemoProvider';
 import { MAX_ITEM_KG, MAX_ITEMS, MIN_ITEM_KG, totalWeight, validatePackage } from '@/demo/matching';
-import type { ItemCategory, PackageDraft } from '@/demo/types';
+import type { Item, ItemCategory, PackageDraft } from '@/demo/types';
 
 const CATEGORIES: ItemCategory[] = ['Documents', 'Package', 'Clothing', 'Fragile', 'Food', 'Electronics', 'Other'];
 
 /** What the inputs hold: numbers as typed, so a half-typed "0." isn't lost */
-interface ItemForm {
+interface ItemForm extends Omit<Item, 'weightKg'> {
   key: number;
-  category: ItemCategory;
-  description: string;
   weight: string;
 }
 
@@ -37,7 +35,15 @@ export function PostPackageScreen() {
 
   const draft: PackageDraft = {
     ...start,
-    items: items.map(({ category, description, weight }) => ({ category, description, weightKg: toNumber(weight) })),
+    items: items.map(({ id, name, category, description, value, photo, weight }) => ({
+      id,
+      name,
+      category,
+      description,
+      value,
+      photo,
+      weightKg: toNumber(weight),
+    })),
     reward: toNumber(reward),
   };
   const errors = validatePackage(draft);
@@ -106,10 +112,15 @@ export function PostPackageScreen() {
             </select>
           </div>
           <Field
-            label="What is it"
+            label="Item name"
+            value={item.name}
+            onChange={(e) => update(item.key, { name: e.target.value })}
+            error={item.name.trim() === '' ? 'Name each item' : null}
+          />
+          <Field
+            label="Description (optional)"
             value={item.description}
             onChange={(e) => update(item.key, { description: e.target.value })}
-            error={item.description.trim() === '' ? 'Describe each item' : null}
           />
           <Field
             label="Weight (kg)"
@@ -129,7 +140,16 @@ export function PostPackageScreen() {
         <Button
           variant="secondary"
           onClick={() => {
-            setItems((list) => [...list, { key: nextKey, category: 'Package', description: '', weight: '' }]);
+            setItems((list) => [...list, {
+                key: nextKey,
+                id: `item-${nextKey + 1}`,
+                name: '',
+                category: 'Package',
+                description: '',
+                weight: '',
+                value: 0,
+                photo: '/items/generic.svg',
+              }]);
             setNextKey((k) => k + 1);
           }}
         >

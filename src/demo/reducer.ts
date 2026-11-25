@@ -1,13 +1,14 @@
 import { computeFees } from './fees';
 import { matchTravelers, validatePackage } from './matching';
 import { getStory, tripsFor } from './stories';
-import type { DemoAction, DemoState, Message, Step, Story, View } from './types';
+import { TAB_PANELS, type DemoAction, type DemoState, type Message, type Step, type Story, type TabPanel, type View } from './types';
 
 export const STEPS: readonly Step[] = [
   'start',
   'signup',
   'verify',
   'phone',
+  'home',
   'post',
   'matches',
   'offerSent',
@@ -28,6 +29,9 @@ export const stepIndex = (step: Step) => STEPS.indexOf(step);
 export const reached = (state: DemoState, step: Step) => stepIndex(state.step) >= stepIndex(step);
 
 export const MAX_MESSAGE_LENGTH = 2000;
+
+export const isTabPanel = (panel: DemoState['panel']): panel is TabPanel =>
+  (TAB_PANELS as readonly (string | null)[]).includes(panel);
 
 export const initialState: DemoState = {
   storyId: null,
@@ -96,7 +100,11 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
     case 'confirmPhone':
       if (!at('phone', 'sender')) return state;
       if (action.code.trim() !== story.phoneCode) return { ...state, codeError: true };
-      return { ...state, phoneVerified: true, codeError: false, step: 'post' };
+      return { ...state, phoneVerified: true, codeError: false, step: 'home' };
+
+    case 'startSend':
+      if (!at('home', 'sender')) return state;
+      return { ...state, step: 'post' };
 
     case 'postPackage':
       if (!at('post', 'sender') || validatePackage(action.pkg).length > 0) return state;
@@ -122,7 +130,7 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
     }
 
     case 'switchView':
-      if (!reached(state, 'post') || state.view === action.view) return state;
+      if (!reached(state, 'home') || state.view === action.view) return state;
       return { ...state, view: action.view, panel: null };
 
     case 'acceptOffer':
@@ -144,7 +152,11 @@ function storyReducer(state: DemoState, action: DemoAction, story: Story): DemoS
         const messages = state.messages.length === 0 ? [...story.seededMessages] : state.messages;
         return { ...state, panel: 'chat', messages };
       }
-      if (!reached(state, 'post') || state.view !== 'traveler') return state;
+      if (isTabPanel(action.panel)) {
+        if (!reached(state, 'home')) return state;
+        return { ...state, panel: action.panel };
+      }
+      if (!reached(state, 'home') || state.view !== 'traveler') return state;
       return { ...state, panel: 'postTrip' };
 
     case 'closePanel':

@@ -14,6 +14,7 @@ export type Step =
   | 'signup'
   | 'verify'
   | 'phone'
+  | 'home'
   | 'post'
   | 'matches'
   | 'offerSent'
@@ -26,7 +27,14 @@ export type Step =
   | 'released'
   | 'rating'
   | 'done';
-export type Panel = null | 'chat' | 'postTrip';
+export type TabPanel = 'search' | 'trips' | 'profile';
+export const TAB_PANELS: readonly TabPanel[] = ['search', 'trips', 'profile'];
+export type Panel = null | 'chat' | 'postTrip' | TabPanel;
+export type Country = 'US' | 'GB' | 'CA' | 'ET';
+export interface PopularRoute {
+  from: { country: Country; city: string };
+  to: { country: Country; city: string };
+}
 
 export interface Person {
   id: string;
@@ -42,9 +50,16 @@ export interface Traveler extends Person {
   dateDiffDays: number; // distance from the package's preferred date
 }
 export interface Item {
+  id: string;
+  name: string;
   category: ItemCategory;
+  /** Optional extra detail */
   description: string;
   weightKg: number;
+  /** Declared value in the story's currency; shown only, not used in fees */
+  value: number;
+  /** Bundled illustration under /items/ */
+  photo: string;
 }
 export interface PackageDraft {
   items: Item[];
@@ -83,6 +98,11 @@ export interface Story {
   title: string;
   subtitle: string;
   currency: Currency;
+  mode: 'flight' | 'car';
+  /** Airport codes for a flight story; null when travelers drive */
+  originCode: string | null;
+  destinationCode: string | null;
+  popularRoutes: PopularRoute[];
   sender: Person & { email: string; phoneMasked: string };
   phoneCode: string; // '482913' in both stories
   packageDraft: PackageDraft; // the prefilled package
@@ -115,6 +135,7 @@ export type DemoAction =
   | { type: 'signUp'; name: string; email: string }
   | { type: 'verifyIdentity' }
   | { type: 'confirmPhone'; code: string }
+  | { type: 'startSend' } // home → post
   | { type: 'postPackage'; pkg: PackageDraft }
   | { type: 'editPackage' } // matches → post
   | { type: 'sendOffer'; travelerId: string }

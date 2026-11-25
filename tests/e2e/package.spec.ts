@@ -6,7 +6,7 @@ const cards = (page: Page) => page.getByRole('article');
 
 test('the form is prefilled and shows the total weight', async ({ page }) => {
   await walkTo(page, 'diaspora', 'post');
-  await expect(item(page, 1).getByLabel('What is it')).toHaveValue('Laptop');
+  await expect(item(page, 1).getByLabel('Item name')).toHaveValue('Laptop');
   await expect(item(page, 2).getByLabel('Weight (kg)')).toHaveValue('0.8');
   await expect(page.getByLabel('Reward (USD)')).toHaveValue('60');
   await expect(page.getByText('Washington, DC → Addis Ababa')).toBeVisible();
@@ -50,8 +50,8 @@ test('an empty reward or description blocks Find travelers', async ({ page }) =>
   await page.getByLabel('Reward (USD)').fill('');
   await expect(page.getByText('Enter a reward')).toBeVisible();
   await page.getByLabel('Reward (USD)').fill('75');
-  await item(page, 2).getByLabel('What is it').fill('');
-  await expect(page.getByText('Describe each item')).toBeVisible();
+  await item(page, 2).getByLabel('Item name').fill('');
+  await expect(page.getByText('Name each item')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Find travelers' })).toBeDisabled();
 });
 

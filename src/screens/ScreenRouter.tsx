@@ -6,6 +6,7 @@ import { ChatScreen } from './ChatScreen';
 import { DeliveryScreen } from './DeliveryScreen';
 import { DoneScreen } from './DoneScreen';
 import { EscrowScreen } from './EscrowScreen';
+import { HomeScreen } from './HomeScreen';
 import { MatchesScreen } from './MatchesScreen';
 import { PhoneScreen } from './PhoneScreen';
 import { PostPackageScreen } from './PostPackageScreen';
@@ -50,6 +51,8 @@ export function ScreenRouter() {
       return <VerifyScreen />;
     case 'phone':
       return <PhoneScreen />;
+    case 'home':
+      return <HomeScreen />;
     case 'post':
       return <PostPackageScreen />;
     case 'matches':

@@ -7,6 +7,14 @@ export const DIASPORA: Story = {
   title: 'Diaspora: Washington → Addis',
   subtitle: "A traveler flying home carries Selam's package to her mother in Addis.",
   currency: 'USD',
+  mode: 'flight',
+  originCode: 'IAD',
+  destinationCode: 'ADD',
+  popularRoutes: [
+    { from: { country: 'US', city: 'Washington, DC' }, to: { country: 'ET', city: 'Addis Ababa' } },
+    { from: { country: 'GB', city: 'London' }, to: { country: 'ET', city: 'Addis Ababa' } },
+    { from: { country: 'CA', city: 'Toronto' }, to: { country: 'ET', city: 'Addis Ababa' } },
+  ],
   sender: {
     id: 'selam',
     name: 'Selam Tesfaye',
@@ -17,8 +25,8 @@ export const DIASPORA: Story = {
   phoneCode: '482913',
   packageDraft: {
     items: [
-      { category: 'Electronics', description: 'Laptop', weightKg: 2.2 },
-      { category: 'Other', description: 'Medicine', weightKg: 0.8 },
+      { id: 'item-1', name: 'Laptop', category: 'Electronics', description: '', weightKg: 2.2, value: 450, photo: '/items/laptop.svg' },
+      { id: 'item-2', name: 'Medicine', category: 'Other', description: '', weightKg: 0.8, value: 40, photo: '/items/medicine.svg' },
     ],
     origin: 'Washington, DC',
     destination: 'Addis Ababa',
@@ -88,6 +96,14 @@ export const DOMESTIC: Story = {
   title: 'Domestic: Addis → Hawassa',
   subtitle: "A traveler driving south carries Meron's package to her sister in Hawassa.",
   currency: 'ETB',
+  mode: 'car',
+  originCode: null,
+  destinationCode: null,
+  popularRoutes: [
+    { from: { country: 'ET', city: 'Addis Ababa' }, to: { country: 'ET', city: 'Hawassa' } },
+    { from: { country: 'ET', city: 'Addis Ababa' }, to: { country: 'ET', city: 'Bahir Dar' } },
+    { from: { country: 'ET', city: 'Addis Ababa' }, to: { country: 'ET', city: 'Dire Dawa' } },
+  ],
   sender: {
     id: 'meron',
     name: 'Meron Haile',
@@ -98,8 +114,8 @@ export const DOMESTIC: Story = {
   phoneCode: '482913',
   packageDraft: {
     items: [
-      { category: 'Documents', description: 'Contracts', weightKg: 0.5 },
-      { category: 'Clothing', description: 'Dresses', weightKg: 1.5 },
+      { id: 'item-1', name: 'Contracts', category: 'Documents', description: '', weightKg: 0.5, value: 0, photo: '/items/contracts.svg' },
+      { id: 'item-2', name: 'Dresses', category: 'Clothing', description: '', weightKg: 1.5, value: 3500, photo: '/items/dresses.svg' },
     ],
     origin: 'Addis Ababa',
     destination: 'Hawassa',

@@ -1,4 +1,5 @@
 import { matchTravelers } from './matching';
+import { isTabPanel } from './reducer';
 import type { DemoState, Step, Story, View } from './types';
 
 export interface Guide {
@@ -38,11 +39,17 @@ const ENTRIES: Record<Exclude<Step, 'start'>, Entry> = {
     body: 'A code goes to the phone number on the national ID. Once it is confirmed, the account is active.',
     action: 'Fill in the code, tap Confirm, then Continue.',
   }),
+  home: ({ sender }) => ({
+    who: 'sender',
+    title: 'Home',
+    body: `${sender}'s account is active. Home is where she sends an item, or posts a trip of her own.`,
+    action: 'Tap Send an Item.',
+  }),
   post: ({ sender }) => ({
     who: 'sender',
-    title: 'Post a package',
+    title: 'Send an item',
     body: `${sender} lists what she's sending, where it goes, and the reward she'll pay the traveler. Try changing a weight.`,
-    action: 'Tap Find travelers.',
+    action: 'Check the item, tap Next twice, then Find travelers.',
   }),
   matches: ({ traveler }) => ({
     who: 'sender',
@@ -138,6 +145,8 @@ export function guideFor(state: DemoState, story: Story | null): Guide {
     entry = { ...entry, body: 'No traveler on this route has room for a package this heavy.' };
     action = 'Tap Edit package and make it lighter.';
   }
+
+  if (isTabPanel(state.panel)) return { ...entry, next: 'Tap Home to continue.' };
 
   const next =
     entry.who !== null && entry.who !== state.view

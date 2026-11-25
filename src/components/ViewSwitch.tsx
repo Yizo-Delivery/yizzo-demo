@@ -11,7 +11,7 @@ const first = (name: string) => name.split(' ')[0];
 /** Flip between the sender's and the traveler's phone; shown once the account is active */
 export function ViewSwitch() {
   const { state, story, dispatch } = useDemo();
-  if (story === null || !reached(state, 'post')) return null;
+  if (story === null || !reached(state, 'home')) return null;
 
   const traveler = story.travelers.find((t) => t.id === state.chosenTravelerId) ?? story.travelers[0];
   const { who } = guideFor(state, story);

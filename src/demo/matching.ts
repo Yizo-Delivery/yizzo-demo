@@ -17,7 +17,8 @@ export function validatePackage(pkg: PackageDraft): string[] {
   if (pkg.items.some((i) => !(i.weightKg >= MIN_ITEM_KG && i.weightKg <= MAX_ITEM_KG))) {
     errors.push(`Enter a weight between ${MIN_ITEM_KG} and ${MAX_ITEM_KG} kg`);
   }
-  if (pkg.items.some((i) => i.description.trim() === '')) errors.push('Describe each item');
+  if (pkg.items.some((i) => i.name.trim() === '')) errors.push('Name each item');
+  if (pkg.items.some((i) => !(i.value >= 0))) errors.push('Enter a value of 0 or more');
   if (!(pkg.reward > 0)) errors.push('Enter a reward');
   return errors;
 }

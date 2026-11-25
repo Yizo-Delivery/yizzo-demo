@@ -47,7 +47,7 @@ export function TravelerHomeScreen() {
               {state.pkg.items.map((item, i) => (
                 <li key={i} className="flex justify-between">
                   <span>
-                    {item.description} <span className="text-stone-500">· {item.category}</span>
+                    {item.name} <span className="text-stone-500">· {item.category}</span>
                   </span>
                   <span>{item.weightKg} kg</span>
                 </li>

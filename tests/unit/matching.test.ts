@@ -41,19 +41,29 @@ describe('validatePackage', () => {
     expect(validatePackage(DOMESTIC.packageDraft)).toEqual([]);
   });
 
-  it('rejects a zero or too-heavy weight, an empty description and a reward of 0', () => {
+  it('rejects a zero or too-heavy weight and a reward of 0', () => {
+    const [a, b] = DIASPORA.packageDraft.items;
     const bad: PackageDraft = {
       ...DIASPORA.packageDraft,
       reward: 0,
       items: [
-        { category: 'Electronics', description: 'Laptop', weightKg: 0 },
-        { category: 'Other', description: '  ', weightKg: 31 },
+        { ...a, weightKg: 0 },
+        { ...b, weightKg: 31 },
       ],
     };
-    expect(validatePackage(bad)).toEqual([
-      'Enter a weight between 0.1 and 30 kg',
-      'Describe each item',
-      'Enter a reward',
+    expect(validatePackage(bad)).toEqual(['Enter a weight between 0.1 and 30 kg', 'Enter a reward']);
+  });
+
+  it('needs a name for each item but not a description', () => {
+    const [a, b] = DIASPORA.packageDraft.items;
+    expect(validatePackage({ ...DIASPORA.packageDraft, items: [{ ...a, name: '  ' }, b] })).toEqual(['Name each item']);
+    expect(validatePackage({ ...DIASPORA.packageDraft, items: [{ ...a, description: '' }, b] })).toEqual([]);
+  });
+
+  it('rejects a negative item value', () => {
+    const [a] = DIASPORA.packageDraft.items;
+    expect(validatePackage({ ...DIASPORA.packageDraft, items: [{ ...a, value: -1 }] })).toEqual([
+      'Enter a value of 0 or more',
     ]);
   });
 

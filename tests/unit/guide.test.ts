@@ -54,7 +54,7 @@ describe('guideFor', () => {
   it('says to edit the package when no traveler has room', () => {
     const heavy = {
       ...DIASPORA.packageDraft,
-      items: [{ category: 'Electronics' as const, description: 'Laptop', weightKg: 9 }],
+      items: [{ ...DIASPORA.packageDraft.items[0], weightKg: 9 }],
     };
     const g = guideFor(at('matches', { pkg: heavy }), DIASPORA);
     expect(g.next).toBe('Tap Edit package and make it lighter.');
@@ -71,5 +71,26 @@ describe('guideFor', () => {
   it('a fresh story starts at sign-up with the sender acting', () => {
     const s = demoReducer(initialState, { type: 'chooseStory', story: 'diaspora' });
     expect(guideFor(s, DIASPORA).who).toBe('sender');
+  });
+
+  it('at home, the sender is told to tap Send an Item', () => {
+    const g = guideFor(at('home'), DIASPORA);
+    expect(g.who).toBe('sender');
+    expect(g.title).toBe('Home');
+    expect(g.next).toBe('Tap Send an Item.');
+  });
+
+  it("at home on the traveler's phone, says to switch first", () => {
+    expect(guideFor(at('home', { view: 'traveler' }), DIASPORA).next).toBe('Switch to Selam, then tap Send an Item.');
+  });
+
+  it('with a tab panel open, says to tap Home', () => {
+    for (const panel of ['search', 'trips', 'profile'] as const) {
+      expect(guideFor(at('paid', { panel }), DIASPORA).next).toBe('Tap Home to continue.');
+    }
+  });
+
+  it('on the form, walks through the three steps', () => {
+    expect(guideFor(at('post'), DIASPORA).next).toBe('Check the item, tap Next twice, then Find travelers.');
   });
 });

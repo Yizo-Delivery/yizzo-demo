@@ -17,7 +17,7 @@ test('signs up, verifies with the simulated Fayda, confirms the phone', async ({
   await expect(page.getByText('Your account is active')).toBeVisible();
   await page.getByRole('button', { name: 'Continue' }).click();
 
-  await expect(nextStep(page)).toHaveText('Tap Find travelers.');
+  await expect(nextStep(page)).toHaveText('Tap Send an Item.');
   // Active: the sender/traveler switch appears
   await expect(page.getByRole('button', { name: 'Traveler · Dawit' })).toBeVisible();
 });

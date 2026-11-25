@@ -1,18 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { demoReducer, initialState } from '@/demo/reducer';
 import { DIASPORA } from '@/demo/stories';
-import type { DemoAction, DemoState } from '@/demo/types';
+import { TAB_PANELS, type DemoAction, type DemoState } from '@/demo/types';
 
 const AT = '2026-12-04T09:30:00.000Z';
 
 const run = (actions: DemoAction[], from: DemoState = initialState) => actions.reduce(demoReducer, from);
 
-const toPost: DemoAction[] = [
+const toHome: DemoAction[] = [
   { type: 'chooseStory', story: 'diaspora' },
   { type: 'signUp', name: 'Selam Tesfaye', email: 'selam@example.com' },
   { type: 'verifyIdentity' },
   { type: 'confirmPhone', code: '482913' },
 ];
+const toPost: DemoAction[] = [...toHome, { type: 'startSend' }];
 const toConfirmed: DemoAction[] = [
   ...toPost,
   { type: 'postPackage', pkg: DIASPORA.packageDraft },
@@ -88,7 +89,7 @@ describe('demoReducer', () => {
     expect(wrong.phoneVerified).toBe(false);
 
     const right = demoReducer(wrong, { type: 'confirmPhone', code: '482913' });
-    expect(right.step).toBe('post');
+    expect(right.step).toBe('home');
     expect(right.codeError).toBe(false);
     expect(right.phoneVerified).toBe(true);
   });
@@ -102,7 +103,7 @@ describe('demoReducer', () => {
   it('only sends offers to travelers who have room', () => {
     const heavy = {
       ...DIASPORA.packageDraft,
-      items: [{ category: 'Electronics' as const, description: 'Laptop', weightKg: 7 }],
+      items: [{ ...DIASPORA.packageDraft.items[0], weightKg: 7 }],
     };
     const atMatches = run([...toPost, { type: 'postPackage', pkg: heavy }]);
     const yonas = DIASPORA.travelers[2].id; // 3.5 kg free
@@ -205,5 +206,54 @@ describe('demoReducer', () => {
 
     const atVerify = run(toPost.slice(0, 2));
     expect(demoReducer(atVerify, { type: 'switchView', view: 'traveler' })).toBe(atVerify);
+  });
+
+  it('confirmPhone with the right code lands on home', () => {
+    const home = run(toHome);
+    expect(home.step).toBe('home');
+    expect(home.phoneVerified).toBe(true);
+  });
+
+  it('startSend moves home to post, and is ignored anywhere else', () => {
+    const home = run(toHome);
+    expect(demoReducer(home, { type: 'startSend' }).step).toBe('post');
+    const post = run(toPost);
+    expect(demoReducer(post, { type: 'startSend' })).toBe(post);
+    const travelerHome = demoReducer(home, { type: 'switchView', view: 'traveler' });
+    expect(demoReducer(travelerHome, { type: 'startSend' })).toBe(travelerHome);
+  });
+
+  it('switching views opens at home', () => {
+    const home = run(toHome);
+    expect(demoReducer(home, { type: 'switchView', view: 'traveler' }).view).toBe('traveler');
+    const phone = run(toHome.slice(0, 3));
+    expect(phone.step).toBe('phone');
+    expect(demoReducer(phone, { type: 'switchView', view: 'traveler' })).toBe(phone);
+  });
+
+  it('the traveler can open Post a trip from home', () => {
+    const traveler = run([...toHome, { type: 'switchView', view: 'traveler' }]);
+    expect(demoReducer(traveler, { type: 'openPanel', panel: 'postTrip' }).panel).toBe('postTrip');
+  });
+
+  it('tab panels open from home on either phone, and never change step', () => {
+    const home = run(toHome);
+    const paid = run(toPaid);
+    const travelerHome = demoReducer(home, { type: 'switchView', view: 'traveler' });
+    const phone = run(toHome.slice(0, 3));
+    for (const panel of TAB_PANELS) {
+      for (const from of [home, paid, travelerHome]) {
+        const open = demoReducer(from, { type: 'openPanel', panel });
+        expect(open.panel).toBe(panel);
+        expect(open.step).toBe(from.step);
+      }
+      expect(demoReducer(phone, { type: 'openPanel', panel })).toBe(phone);
+    }
+  });
+
+  it('switchView closes a tab panel', () => {
+    const trips = demoReducer(run(toHome), { type: 'openPanel', panel: 'trips' });
+    const switched = demoReducer(trips, { type: 'switchView', view: 'traveler' });
+    expect(switched.panel).toBeNull();
   });
 });

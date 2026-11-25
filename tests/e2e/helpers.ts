@@ -26,12 +26,19 @@ const LEGS: [Step, Leg][] = [
     },
   ],
   [
-    'post',
+    'home',
     async (page) => {
       await page.getByRole('button', { name: 'Fill code' }).click();
       await page.getByRole('button', { name: 'Confirm' }).click();
       await page.getByRole('button', { name: 'Continue' }).click();
-      await expect(nextStep(page)).toHaveText('Tap Find travelers.');
+      await expect(nextStep(page)).toHaveText('Tap Send an Item.');
+    },
+  ],
+  [
+    'post',
+    async (page) => {
+      await page.getByRole('button', { name: 'Send an Item' }).click();
+      await expect(nextStep(page)).toHaveText('Check the item, tap Next twice, then Find travelers.');
     },
   ],
   [
