@@ -80,20 +80,18 @@ export function HomeScreen() {
               key={r.to.city + r.from.city}
               className="flex items-center gap-3 rounded-[20px] bg-white p-3 shadow-[0_1px_3px_rgb(11_31_75/0.08)]"
             >
-              <span className="flex min-w-0 flex-1 items-center gap-2 text-sm">
-                <Flag country={r.from.country} />
-                <span className="min-w-0">
-                  <span className="block font-semibold text-brand">{r.from.city}</span>
-                  <span className="block text-slate-600">{COUNTRY[r.from.country]}</span>
+              <span className="flex min-w-0 flex-1 flex-col gap-1">
+                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-brand">
+                  <Flag country={r.from.country} />
+                  {r.from.city}
+                  <ArrowRight aria-label="to" className="size-4 shrink-0 text-sky" />
+                  <Flag country={r.to.country} />
+                  {r.to.city}
                 </span>
-                <ArrowRight aria-label="to" className="size-4 shrink-0 text-sky" />
-                <Flag country={r.to.country} />
-                <span className="min-w-0">
-                  <span className="block font-semibold text-brand">{r.to.city}</span>
-                  <span className="block text-slate-600">{COUNTRY[r.to.country]}</span>
+                <span className="text-xs text-slate-600">
+                  {COUNTRY[r.from.country]} → {COUNTRY[r.to.country]} · 50+ active travelers
                 </span>
               </span>
-              <span className="w-20 shrink-0 text-right text-xs font-medium text-slate-600">50+ active travelers</span>
             </li>
           ))}
         </ul>

@@ -95,7 +95,7 @@ export function VerifyScreen() {
           <p className="text-slate-700">One more step: confirm your phone.</p>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-300 p-6 text-center">
+        <div className="flex flex-col items-center gap-3 rounded-[20px] border-2 border-dashed border-sky/40 bg-white p-6 text-center">
           <Fingerprint aria-hidden className="size-10 text-brand" />
           <p className="text-slate-600">You&apos;ll sign in with Fayda and choose what to share.</p>
         </div>
