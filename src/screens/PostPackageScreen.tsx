@@ -61,7 +61,7 @@ export function PostPackageScreen() {
     <form onSubmit={submit} noValidate className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Send a package</h1>
-        <p className="text-stone-600">Tell travelers what you&apos;re sending and what you&apos;ll pay.</p>
+        <p className="text-slate-600">Tell travelers what you&apos;re sending and what you&apos;ll pay.</p>
       </div>
 
       <Card className="flex flex-col gap-2">
@@ -69,7 +69,7 @@ export function PostPackageScreen() {
           <MapPin aria-hidden className="size-5 text-brand" />
           {start.origin} → {start.destination}
         </p>
-        <p className="flex items-center gap-2 text-stone-600">
+        <p className="flex items-center gap-2 text-slate-600">
           <CalendarDays aria-hidden className="size-5 text-brand" />
           {formatRange(start.preferredDeparture, start.preferredArrival)}
         </p>
@@ -79,7 +79,7 @@ export function PostPackageScreen() {
         <fieldset
           key={item.key}
           aria-label={`Item ${i + 1}`}
-          className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-white p-4"
+          className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4"
         >
           <div className="flex min-h-11 items-center justify-between">
             <p aria-hidden className="font-semibold">
@@ -90,21 +90,21 @@ export function PostPackageScreen() {
                 type="button"
                 aria-label={`Remove item ${i + 1}`}
                 onClick={() => setItems((list) => list.filter((x) => x.key !== item.key))}
-                className="grid size-11 place-items-center rounded-xl text-stone-500 hover:bg-stone-100"
+                className="grid size-11 place-items-center rounded-xl text-slate-500 hover:bg-slate-100"
               >
                 <Trash2 aria-hidden className="size-5" />
               </button>
             )}
           </div>
           <div className="flex flex-col gap-1.5">
-            <label htmlFor={`category-${item.key}`} className="text-sm font-medium text-stone-700">
+            <label htmlFor={`category-${item.key}`} className="text-sm font-medium text-slate-700">
               Category
             </label>
             <select
               id={`category-${item.key}`}
               value={item.category}
               onChange={(e) => update(item.key, { category: e.target.value as ItemCategory })}
-              className="min-h-12 rounded-xl border border-stone-300 bg-white px-3 text-base"
+              className="min-h-12 rounded-xl border border-slate-300 bg-white px-3 text-base"
             >
               {CATEGORIES.map((c) => (
                 <option key={c}>{c}</option>
@@ -158,7 +158,7 @@ export function PostPackageScreen() {
         </Button>
       )}
 
-      <p className={cx('font-semibold', weight === null && 'text-stone-500')}>
+      <p className={cx('font-semibold', weight === null && 'text-slate-500')}>
         {weight === null ? 'Total weight: –' : `Total weight: ${weight} kg`}
       </p>
 

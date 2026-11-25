@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf7;
-  --foreground: #1c1917;
+  --background: #f7f9fc;
+  --foreground: #0b1f4b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-jakarta);
 
-  /* Yizzo's demo palette (design: "Look") */
-  --color-brand: #0f5132;
-  --color-brand-soft: #e6efe9;
+  /* Yizzo's palette (redesign spec: "Look") */
+  --color-brand: #0b1f4b;
+  --color-brand-soft: #e8f0fe;
+  --color-sky: #3b82f6;
   --color-accent: #f2c14e;
   --color-held: #b45309;
   --color-released: #15803d;
@@ -22,7 +23,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
 }
 
 /* Headings take focus when a new screen opens (for screen readers); no ring for that */

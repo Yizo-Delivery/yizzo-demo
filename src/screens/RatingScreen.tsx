@@ -13,11 +13,11 @@ const MAX_REVIEW = 500;
 function RatingCard({ from, about, rating }: { from: string; about: string; rating: Rating }) {
   return (
     <Card className="flex flex-col gap-1.5">
-      <p className="text-sm text-stone-600">
+      <p className="text-sm text-slate-600">
         {from} rated {about}
       </p>
       <Stars value={rating.stars} />
-      {rating.review && <p className="text-stone-800">“{rating.review}”</p>}
+      {rating.review && <p className="text-slate-800">“{rating.review}”</p>}
     </Card>
   );
 }
@@ -53,7 +53,7 @@ export function RatingScreen() {
         <div>
           <StatusPill tone="released">Released</StatusPill>
         </div>
-        <p className="text-stone-800">
+        <p className="text-slate-800">
           {me === 'sender'
             ? `${first(traveler.name)} receives ${money(fees.reward)} · Yizzo fee ${money(fees.fee)}`
             : `You receive ${money(fees.reward)}`}
@@ -65,7 +65,7 @@ export function RatingScreen() {
           <h1 className="text-2xl font-bold tracking-tight">Rate {otherName}</h1>
           <Stars value={stars} onChange={setStars} label="Your rating" />
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="review" className="text-sm font-medium text-stone-700">
+            <label htmlFor="review" className="text-sm font-medium text-slate-700">
               Review (optional)
             </label>
             <textarea
@@ -74,7 +74,7 @@ export function RatingScreen() {
               maxLength={MAX_REVIEW}
               value={review}
               onChange={(e) => setReview(e.target.value)}
-              className="rounded-xl border border-stone-300 bg-white px-3 py-2.5 text-base focus:border-brand focus:outline-2 focus:outline-brand/30"
+              className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-base focus:border-brand focus:outline-2 focus:outline-brand/30"
             />
           </div>
           <Button type="submit" disabled={stars === 0} className="mt-auto">
@@ -92,8 +92,8 @@ export function RatingScreen() {
         </div>
       ) : (
         <Card className="flex items-start gap-3">
-          <EyeOff aria-hidden className="mt-0.5 size-5 shrink-0 text-stone-500" />
-          <p className="text-stone-700">Your rating is hidden until {otherName} rates too.</p>
+          <EyeOff aria-hidden className="mt-0.5 size-5 shrink-0 text-slate-500" />
+          <p className="text-slate-700">Your rating is hidden until {otherName} rates too.</p>
         </Card>
       )}
     </div>

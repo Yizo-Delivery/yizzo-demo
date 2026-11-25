@@ -55,8 +55,8 @@ export function Button({
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
         disabled && 'cursor-not-allowed opacity-40',
         variant === 'primary'
-          ? 'bg-brand text-white hover:bg-brand/90'
-          : 'border border-brand/30 bg-white text-brand hover:bg-brand-soft',
+          ? 'bg-brand text-white shadow-sm hover:bg-brand/90'
+          : 'border border-brand/40 bg-white text-brand hover:bg-brand-soft',
         className,
       )}
       {...props}
@@ -65,7 +65,7 @@ export function Button({
 }
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cx('rounded-2xl border border-stone-200 bg-white p-4', className)}>{children}</div>;
+  return <div className={cx('rounded-[20px] bg-white p-4 shadow-[0_1px_3px_rgb(11_31_75/0.08),0_4px_16px_rgb(11_31_75/0.06)]', className)}>{children}</div>;
 }
 
 type FieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -78,7 +78,7 @@ export function Field({ label, error, className, ...props }: FieldProps) {
   const errorId = `${id}-error`;
   return (
     <div className={cx('flex flex-col gap-1.5', className)}>
-      <label htmlFor={id} className="text-sm font-medium text-stone-700">
+      <label htmlFor={id} className="text-sm font-medium text-slate-700">
         {label}
       </label>
       <input
@@ -88,7 +88,7 @@ export function Field({ label, error, className, ...props }: FieldProps) {
         className={cx(
           'min-h-12 rounded-xl border bg-white px-3 text-base text-foreground',
           'focus:border-brand focus:outline-2 focus:outline-brand/30',
-          error ? 'border-red-600' : 'border-stone-300',
+          error ? 'border-red-600' : 'border-slate-300',
         )}
         {...props}
       />
@@ -105,7 +105,7 @@ const PILL_TONES = {
   held: 'bg-amber-50 text-held ring-held/30',
   released: 'bg-green-50 text-released ring-released/30',
   sent: 'bg-blue-50 text-sent ring-sent/30',
-  neutral: 'bg-stone-100 text-stone-700 ring-stone-300',
+  neutral: 'bg-slate-100 text-slate-700 ring-slate-300',
 } as const;
 
 export function StatusPill({ tone, children }: { tone: keyof typeof PILL_TONES; children: ReactNode }) {
@@ -137,7 +137,7 @@ export function Stars({ value, onChange, label = 'Rating' }: StarsProps) {
           <Star
             key={n}
             aria-hidden
-            className={cx('size-4', n <= Math.round(value) ? 'fill-accent text-accent' : 'text-stone-300')}
+            className={cx('size-4', n <= Math.round(value) ? 'fill-accent text-accent' : 'text-slate-300')}
           />
         ))}
       </span>
@@ -155,7 +155,7 @@ export function Stars({ value, onChange, label = 'Rating' }: StarsProps) {
           onClick={() => onChange(n)}
           className="grid size-11 place-items-center rounded-xl focus-visible:outline-2 focus-visible:outline-brand"
         >
-          <Star aria-hidden className={cx('size-8', n <= value ? 'fill-accent text-accent' : 'text-stone-300')} />
+          <Star aria-hidden className={cx('size-8', n <= value ? 'fill-accent text-accent' : 'text-slate-300')} />
         </button>
       ))}
     </div>

@@ -6,6 +6,7 @@ import { useDemo } from '@/demo/DemoProvider';
 import { guideFor } from '@/demo/guide';
 import { reached } from '@/demo/reducer';
 import { ScreenRouter } from '@/screens/ScreenRouter';
+import { Logo } from './Logo';
 import { ViewSwitch } from './ViewSwitch';
 import { cx } from './ui';
 
@@ -104,13 +105,13 @@ export function DemoLayout() {
           // relative: sheets such as the Fayda sign-in cover the app, not the page
           'relative flex flex-1 flex-col bg-background',
           'md:h-[844px] md:max-h-[calc(100dvh-4rem)] md:w-[390px] md:flex-none md:overflow-hidden',
-          'md:rounded-[48px] md:border-[10px] md:border-stone-900 md:shadow-2xl',
+          'md:rounded-[48px] md:border-[10px] md:border-brand md:shadow-2xl',
         )}
       >
         {state.step !== 'start' && (
-          <header className="flex flex-col gap-3 border-b border-stone-200 bg-white px-4 pt-4 pb-3">
+          <header className="flex flex-col gap-3 border-b border-slate-200 bg-white px-4 pt-4 pb-3">
             <div className="flex min-h-11 items-center justify-between">
-              <p className="text-xl font-bold tracking-tight text-brand">Yizzo</p>
+              <Logo size="sm" />
               <MessageButton />
             </div>
             <ViewSwitch />
@@ -123,20 +124,21 @@ export function DemoLayout() {
 
       {/* Laptop: the guide beside the phone */}
       <aside className="hidden w-[340px] flex-col gap-4 md:flex" aria-label="Demo guide">
+        <Logo size="lg" />
         {guide.who && (
-          <p className="text-sm font-semibold tracking-wide text-stone-500 uppercase">
+          <p className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
             {guide.who === 'sender' ? "Sender's turn" : "Traveler's turn"}
           </p>
         )}
         <h2 className="text-3xl font-bold tracking-tight text-foreground">{guide.title}</h2>
-        <p className="text-lg leading-relaxed text-stone-600">{guide.body}</p>
-        <p className="rounded-2xl border-l-4 border-accent bg-white px-4 py-3 text-base font-semibold text-brand"
+        <p className="text-lg leading-relaxed text-slate-600">{guide.body}</p>
+        <p className="rounded-2xl border-l-4 border-sky bg-white shadow-sm px-4 py-3 text-base font-semibold text-brand"
           aria-live="polite"
           data-testid="next-step"
         >
           {guide.next}
         </p>
-        {showRestart && <RestartButton className="self-start text-stone-600 hover:bg-stone-100" />}
+        {showRestart && <RestartButton className="self-start text-slate-600 hover:bg-slate-100" />}
       </aside>
     </div>
   );

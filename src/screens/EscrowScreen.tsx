@@ -17,8 +17,8 @@ export function PaymentTable({ fees, currency }: { fees: Fees; currency: Currenc
     <table aria-label="Payment" className="w-full text-left">
       <tbody>
         {rows.map(([label, amount]) => (
-          <tr key={label} className="border-b border-stone-100">
-            <th scope="row" className="py-2 font-normal text-stone-600">
+          <tr key={label} className="border-b border-slate-100">
+            <th scope="row" className="py-2 font-normal text-slate-600">
               {label}
             </th>
             <td className="py-2 text-right tabular-nums">{formatMoney(amount, currency)}</td>
@@ -56,13 +56,13 @@ export function EscrowScreen() {
             <BadgeCheck aria-hidden className="size-4" />
             Verified
           </p>
-          <p className="flex items-center gap-2 text-sm text-stone-700">
+          <p className="flex items-center gap-2 text-sm text-slate-700">
             <Stars value={traveler.rating} />
             {traveler.rating.toFixed(1)} · {traveler.trips} trips
           </p>
-          <p className="text-sm text-stone-600">Travels {formatRange(traveler.departure, traveler.arrival)}</p>
+          <p className="text-sm text-slate-600">Travels {formatRange(traveler.departure, traveler.arrival)}</p>
         </Card>
-        <p className="text-stone-600">Confirming books your package onto {name}&apos;s trip.</p>
+        <p className="text-slate-600">Confirming books your package onto {name}&apos;s trip.</p>
         <Button className="mt-auto" onClick={() => dispatch({ type: 'confirmTraveler' })}>
           Confirm {name}
         </Button>
@@ -76,7 +76,7 @@ export function EscrowScreen() {
     <div className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">{paid ? 'Payment held' : 'Pay into escrow'}</h1>
-        <p className="text-stone-600">
+        <p className="text-slate-600">
           {name} carries your package. You pay Yizzo now; {name} is paid when it arrives.
         </p>
       </div>
@@ -90,7 +90,7 @@ export function EscrowScreen() {
           <div>
             <StatusPill tone="held">Held</StatusPill>
           </div>
-          <p className="text-stone-800">Yizzo keeps the money until you confirm delivery.</p>
+          <p className="text-slate-800">Yizzo keeps the money until you confirm delivery.</p>
         </Card>
       ) : (
         // Keyed so it's always a fresh button, never the Confirm button relabeled

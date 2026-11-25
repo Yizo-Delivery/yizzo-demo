@@ -42,13 +42,13 @@ function FaydaSheet({ onAllow, onCancel }: { onAllow: () => void; onCancel: () =
         aria-labelledby="fayda-sheet-title"
         className="flex w-full flex-col gap-4 rounded-t-3xl bg-white p-6 shadow-xl"
       >
-        <p className="self-start rounded-full bg-accent/30 px-2.5 py-1 text-xs font-semibold text-stone-800">
+        <p className="self-start rounded-full bg-accent/30 px-2.5 py-1 text-xs font-semibold text-slate-800">
           Not the real Fayda service
         </p>
         <h2 id="fayda-sheet-title" className="text-xl font-bold">
           Demo — simulated Fayda sign-in
         </h2>
-        <p className="text-stone-600">Yizzo is asking to see:</p>
+        <p className="text-slate-600">Yizzo is asking to see:</p>
         <ul className="flex flex-col gap-2">
           {SHARED.map((item) => (
             <li key={item} className="flex items-center gap-2">
@@ -57,7 +57,7 @@ function FaydaSheet({ onAllow, onCancel }: { onAllow: () => void; onCancel: () =
             </li>
           ))}
         </ul>
-        <p className="text-sm text-stone-500">Your ID number itself is never stored by Yizzo.</p>
+        <p className="text-sm text-slate-500">Your ID number itself is never stored by Yizzo.</p>
         <div className="flex flex-col gap-2">
           <Button focusWhenArmed onClick={onAllow}>
             Allow
@@ -81,7 +81,7 @@ export function VerifyScreen() {
     <div className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Verify your identity</h1>
-        <p className="text-stone-600">
+        <p className="text-slate-600">
           Everyone on Yizzo is verified with their national ID, so you always know who you&apos;re dealing with.
         </p>
       </div>
@@ -92,12 +92,12 @@ export function VerifyScreen() {
             <BadgeCheck aria-hidden className="size-6" />
             Verified identity
           </p>
-          <p className="text-stone-700">One more step: confirm your phone.</p>
+          <p className="text-slate-700">One more step: confirm your phone.</p>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-stone-300 p-6 text-center">
+        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-300 p-6 text-center">
           <Fingerprint aria-hidden className="size-10 text-brand" />
-          <p className="text-stone-600">You&apos;ll sign in with Fayda and choose what to share.</p>
+          <p className="text-slate-600">You&apos;ll sign in with Fayda and choose what to share.</p>
         </div>
       )}
 

@@ -28,7 +28,7 @@ export function DeliveryScreen() {
     <div className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Delivery</h1>
-        <p className="text-stone-600">
+        <p className="text-slate-600">
           {state.pkg.origin} → {state.pkg.destination}
           {isTraveler ? ` · for ${story.sender.name}` : ` · with ${traveler.name}`}
         </p>
@@ -48,19 +48,19 @@ export function DeliveryScreen() {
                 {i < STAGES.length - 1 && (
                   <span
                     aria-hidden
-                    className={cx('absolute top-9 left-[13px] h-6 w-0.5', done ? 'bg-brand' : 'bg-stone-200')}
+                    className={cx('absolute top-9 left-[13px] h-6 w-0.5', done ? 'bg-brand' : 'bg-slate-200')}
                   />
                 )}
                 <span
                   aria-hidden
                   className={cx(
                     'grid size-7 shrink-0 place-items-center rounded-full',
-                    done ? 'bg-brand text-white' : 'border-2 border-stone-300 text-stone-300',
+                    done ? 'bg-brand text-white' : 'border-2 border-slate-300 text-slate-300',
                   )}
                 >
                   {done ? <Check className="size-4" /> : <Circle className="size-2 fill-current" />}
                 </span>
-                <span className={cx('font-medium', done ? 'text-foreground' : 'text-stone-500')}>
+                <span className={cx('font-medium', done ? 'text-foreground' : 'text-slate-500')}>
                   {s.label}
                   <span className="sr-only">{done ? ' (done)' : ''}</span>
                 </span>
@@ -76,7 +76,7 @@ export function DeliveryScreen() {
             <div>
               <StatusPill tone="held">Held</StatusPill>
             </div>
-            <p className="text-stone-800">
+            <p className="text-slate-800">
               Your {formatMoney(state.pkg.reward, story.currency)} reward is held by Yizzo and paid once{' '}
               {first(story.sender.name)} confirms delivery.
             </p>
@@ -92,7 +92,7 @@ export function DeliveryScreen() {
               {next.action}
             </Button>
           ) : (
-            <p className="mt-auto text-center text-stone-600">
+            <p className="mt-auto text-center text-slate-600">
               Waiting for {first(story.sender.name)} to confirm delivery
             </p>
           )}
@@ -103,10 +103,10 @@ export function DeliveryScreen() {
             <div>
               <StatusPill tone="held">Held</StatusPill>
             </div>
-            <p className="text-stone-800">Yizzo keeps the money until you confirm delivery.</p>
+            <p className="text-slate-800">Yizzo keeps the money until you confirm delivery.</p>
           </Card>
           {next ? (
-            <p className="mt-auto text-center text-stone-600">
+            <p className="mt-auto text-center text-slate-600">
               {first(traveler.name)} updates each step as the package travels.
             </p>
           ) : (

@@ -21,7 +21,7 @@ export function ViewSwitch() {
   ];
 
   return (
-    <div role="group" aria-label="Whose phone" className="grid grid-cols-2 gap-1 rounded-2xl bg-stone-100 p-1">
+    <div role="group" aria-label="Whose phone" className="grid grid-cols-2 gap-1 rounded-2xl bg-brand-soft p-1">
       {options.map(({ view, label }) => {
         const active = state.view === view;
         const wanted = who === view && !active;
@@ -33,12 +33,12 @@ export function ViewSwitch() {
             onClick={() => dispatch({ type: 'switchView', view })}
             className={cx(
               'relative min-h-11 rounded-xl px-2 text-sm font-semibold transition-colors',
-              active ? 'bg-white text-brand shadow-sm' : 'text-stone-600 hover:text-brand',
+              active ? 'bg-white text-brand shadow-sm' : 'text-slate-600 hover:text-brand',
             )}
           >
             {label}
             {wanted && (
-              <span aria-hidden className="absolute top-1.5 right-2 size-2.5 motion-safe:animate-pulse rounded-full bg-accent" />
+              <span aria-hidden className="absolute top-1.5 right-2 size-2.5 motion-safe:animate-pulse rounded-full bg-sky" />
             )}
           </button>
         );

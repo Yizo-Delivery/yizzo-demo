@@ -34,7 +34,7 @@ export function PostTripScreen() {
     <form onSubmit={submit} noValidate className="flex flex-1 flex-col gap-4 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Post a trip</h1>
-        <p className="text-stone-600">Senders on your route will be able to offer you packages.</p>
+        <p className="text-slate-600">Senders on your route will be able to offer you packages.</p>
       </div>
       <Field label="From" value={origin} onChange={(e) => setOrigin(e.target.value)} />
       <Field label="To" value={destination} onChange={(e) => setDestination(e.target.value)} />

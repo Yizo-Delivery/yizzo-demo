@@ -29,7 +29,7 @@ export function DoneScreen() {
 
       <ol className="flex flex-col gap-2">
         {recap.map((line) => (
-          <li key={line} className="flex items-start gap-2 text-stone-800">
+          <li key={line} className="flex items-start gap-2 text-slate-800">
             <CheckCircle2 aria-hidden className="mt-0.5 size-5 shrink-0 text-brand" />
             {line}
           </li>
@@ -40,8 +40,8 @@ export function DoneScreen() {
         <h2 className="font-semibold">Also built, not shown here</h2>
         <ul className="flex flex-col gap-2">
           {ALSO_BUILT.map(({ Icon, text }) => (
-            <li key={text} className="flex items-start gap-2 text-sm text-stone-700">
-              <Icon aria-hidden className="mt-0.5 size-4 shrink-0 text-stone-500" />
+            <li key={text} className="flex items-start gap-2 text-sm text-slate-700">
+              <Icon aria-hidden className="mt-0.5 size-4 shrink-0 text-slate-500" />
               {text}
             </li>
           ))}

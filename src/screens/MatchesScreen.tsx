@@ -18,22 +18,22 @@ export function MatchesScreen() {
     <div className="flex flex-1 flex-col gap-4 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Travelers for your package</h1>
-        <p className="text-stone-600">
+        <p className="text-slate-600">
           {state.pkg.origin} → {state.pkg.destination} · {weight} kg
         </p>
       </div>
 
       {travelers.length === 0 ? (
         <Card className="flex flex-col items-center gap-3 py-8 text-center">
-          <PackageSearch aria-hidden className="size-10 text-stone-400" />
+          <PackageSearch aria-hidden className="size-10 text-slate-400" />
           <p className="font-semibold">No traveler has room for {weight} kg on this route yet.</p>
-          <p className="text-stone-600">Try a lighter package, or split it in two.</p>
+          <p className="text-slate-600">Try a lighter package, or split it in two.</p>
         </Card>
       ) : (
         travelers.map((t, i) => {
           const sent = state.chosenTravelerId === t.id;
           return (
-            <article key={t.id} aria-label={t.name} className="flex flex-col gap-3 rounded-2xl border border-stone-200 bg-white p-4">
+            <article key={t.id} aria-label={t.name} className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex flex-col gap-1">
                   <p className="text-lg font-semibold">{t.name}</p>
@@ -43,14 +43,14 @@ export function MatchesScreen() {
                   </p>
                 </div>
                 {i === 0 && (
-                  <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-stone-900">Best match</span>
+                  <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-slate-900">Best match</span>
                 )}
               </div>
-              <p className="flex items-center gap-2 text-sm text-stone-700">
+              <p className="flex items-center gap-2 text-sm text-slate-700">
                 <Stars value={t.rating} />
                 {t.rating.toFixed(1)} · {t.trips} trips
               </p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
                 <span className="flex items-center gap-1.5">
                   <CalendarDays aria-hidden className="size-4" />
                   {formatRange(t.departure, t.arrival)}

@@ -19,7 +19,7 @@ export function SignUpScreen() {
     <form onSubmit={submit} className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Create your account</h1>
-        <p className="text-stone-600">You&apos;ll verify your identity next.</p>
+        <p className="text-slate-600">You&apos;ll verify your identity next.</p>
       </div>
       <Field label="Full name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
       <Field

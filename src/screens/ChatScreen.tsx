@@ -31,12 +31,12 @@ export function ChatScreen() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex items-center gap-2 border-b border-stone-200 bg-white px-2 py-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-2 py-2">
         <button
           type="button"
           aria-label="Back"
           onClick={() => dispatch({ type: 'closePanel' })}
-          className="grid size-11 place-items-center rounded-xl text-stone-700 hover:bg-stone-100"
+          className="grid size-11 place-items-center rounded-xl text-slate-700 hover:bg-slate-100"
         >
           <ArrowLeft aria-hidden className="size-5" />
         </button>
@@ -51,7 +51,7 @@ export function ChatScreen() {
               key={m.id}
               className={cx(
                 'max-w-[80%] rounded-2xl px-3.5 py-2 break-words whitespace-pre-wrap',
-                mine ? 'self-end rounded-br-md bg-brand text-white' : 'self-start rounded-bl-md bg-white text-foreground ring-1 ring-stone-200',
+                mine ? 'self-end rounded-br-md bg-brand text-white' : 'self-start rounded-bl-md bg-white text-foreground ring-1 ring-slate-200',
               )}
             >
               {m.text}
@@ -61,7 +61,7 @@ export function ChatScreen() {
         <div ref={end} />
       </div>
 
-      <form onSubmit={submit} className="flex items-end gap-2 border-t border-stone-200 bg-white p-3">
+      <form onSubmit={submit} className="flex items-end gap-2 border-t border-slate-200 bg-white p-3">
         <textarea
           aria-label="Write a message"
           rows={1}
@@ -75,7 +75,7 @@ export function ChatScreen() {
             }
           }}
           placeholder="Message"
-          className="max-h-32 min-h-11 flex-1 resize-none rounded-xl border border-stone-300 px-3 py-2.5 text-base focus:border-brand focus:outline-2 focus:outline-brand/30"
+          className="max-h-32 min-h-11 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2.5 text-base focus:border-brand focus:outline-2 focus:outline-brand/30"
         />
         <button
           type="submit"

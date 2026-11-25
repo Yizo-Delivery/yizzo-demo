@@ -33,7 +33,7 @@ export function PhoneScreen() {
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-brand-soft p-6 text-center">
           <BadgeCheck aria-hidden className="size-12 text-brand" />
           <p className="text-xl font-bold text-brand">Your account is active</p>
-          <p className="text-stone-700">Identity and phone verified. You can send and carry packages.</p>
+          <p className="text-slate-700">Identity and phone verified. You can send and carry packages.</p>
         </div>
         <Button className="mt-auto" onClick={() => dispatch({ type: 'confirmPhone', code })}>
           Continue
@@ -46,7 +46,7 @@ export function PhoneScreen() {
     <form onSubmit={submit} className="flex flex-1 flex-col gap-5 p-6">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight">Confirm your phone</h1>
-        <p className="text-stone-600">We texted a code to {story.sender.phoneMasked}</p>
+        <p className="text-slate-600">We texted a code to {story.sender.phoneMasked}</p>
       </div>
 
       <Field
@@ -61,8 +61,8 @@ export function PhoneScreen() {
       />
 
       <div className="flex items-center gap-3 rounded-2xl border border-accent bg-accent/10 p-3">
-        <MessageSquareText aria-hidden className="size-5 shrink-0 text-stone-700" />
-        <p className="flex-1 text-sm text-stone-700">Demo code: {story.phoneCode}</p>
+        <MessageSquareText aria-hidden className="size-5 shrink-0 text-slate-700" />
+        <p className="flex-1 text-sm text-slate-700">Demo code: {story.phoneCode}</p>
         <button
           type="button"
           onClick={() => setCode(story.phoneCode)}

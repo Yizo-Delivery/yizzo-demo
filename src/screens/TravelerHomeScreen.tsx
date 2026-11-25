@@ -25,8 +25,8 @@ export function TravelerHomeScreen() {
           Offers
         </h1>
         {!hasOffer || state.pkg === null ? (
-          <Card className="flex items-center gap-3 text-stone-600">
-            <Inbox aria-hidden className="size-6 text-stone-400" />
+          <Card className="flex items-center gap-3 text-slate-600">
+            <Inbox aria-hidden className="size-6 text-slate-400" />
             No offers yet
           </Card>
         ) : (
@@ -37,17 +37,17 @@ export function TravelerHomeScreen() {
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="text-lg font-semibold">{sender.name}</p>
-                <p className="text-sm text-stone-600">
+                <p className="text-sm text-slate-600">
                   {state.pkg.origin} → {state.pkg.destination}
                 </p>
               </div>
               <p className="text-lg font-bold text-brand">{formatMoney(state.pkg.reward, story.currency)}</p>
             </div>
-            <ul className="flex flex-col gap-1 text-stone-700">
+            <ul className="flex flex-col gap-1 text-slate-700">
               {state.pkg.items.map((item, i) => (
                 <li key={i} className="flex justify-between">
                   <span>
-                    {item.name} <span className="text-stone-500">· {item.category}</span>
+                    {item.name} <span className="text-slate-500">· {item.category}</span>
                   </span>
                   <span>{item.weightKg} kg</span>
                 </li>
@@ -80,7 +80,7 @@ export function TravelerHomeScreen() {
               <MapPin aria-hidden className="size-5 text-brand" />
               {trip.origin} → {trip.destination}
             </p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
               <span className="flex items-center gap-1.5">
                 <CalendarDays aria-hidden className="size-4" />
                 {formatRange(trip.departure, trip.arrival)}
