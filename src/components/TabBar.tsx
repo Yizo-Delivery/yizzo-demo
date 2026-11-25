@@ -24,7 +24,8 @@ export function TabBar() {
     state.panel === 'postTrip' ||
     (state.view === 'sender' && state.step === 'post' && state.panel === null);
   if (hidden) return null;
-  return <Tabs />;
+  // Keyed by phone: a sheet opened on one phone doesn't follow to the other
+  return <Tabs key={state.view} />;
 }
 
 function Tabs() {
@@ -83,7 +84,14 @@ function Tabs() {
       {explaining && (
         <Sheet title="One package at a time in the demo" onClose={() => setExplaining(false)}>
           <p className="text-slate-600">This demo follows a single delivery. Restart it to send another one.</p>
-          <Button onClick={() => setExplaining(false)}>Back to my package</Button>
+          <Button
+            onClick={() => {
+              setExplaining(false);
+              if (active !== null) dispatch({ type: 'closePanel' });
+            }}
+          >
+            Back to my package
+          </Button>
         </Sheet>
       )}
     </>

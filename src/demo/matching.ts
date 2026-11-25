@@ -33,3 +33,9 @@ export function matchTravelers(story: Story, pkg: PackageDraft): Traveler[] {
     .filter((t) => t.spareKg >= weight)
     .sort((a, b) => a.dateDiffDays - b.dateDiffDays || b.rating - a.rating || b.spareKg - a.spareKg);
 }
+
+/** A fresh item id, one past the highest in use, so a removed item's id is never reused */
+export function nextItemId(ids: readonly string[]): string {
+  const highest = Math.max(0, ...ids.map((id) => Number(id.replace(/^item-/, '')) || 0));
+  return `item-${highest + 1}`;
+}

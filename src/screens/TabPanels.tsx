@@ -6,11 +6,29 @@ import { Avatar } from '@/components/Avatar';
 import { TravelerCard } from '@/components/TravelerCard';
 import { Button, Card, StatusPill } from '@/components/ui';
 import { formatRange } from '@/demo/dates';
-import { useDemo } from '@/demo/DemoProvider';
+import { useDemo, usePhotos } from '@/demo/DemoProvider';
 import { formatMoney } from '@/demo/fees';
 import { totalWeight } from '@/demo/matching';
 import { reached } from '@/demo/reducer';
-import type { DemoState } from '@/demo/types';
+import type { DemoState, PackageDraft } from '@/demo/types';
+
+/** The package's pictures: picked photos first, else the bundled ones */
+function PackageThumbs({ pkg }: { pkg: PackageDraft }) {
+  const photos = usePhotos();
+  return (
+    <div className="flex gap-2">
+      {pkg.items.map((item) => (
+        // eslint-disable-next-line @next/next/no-img-element -- local files and object URLs
+        <img
+          key={item.id}
+          src={photos.photosFor(item.id)[0] ?? item.photo}
+          alt={item.name}
+          className="size-12 rounded-xl bg-brand-soft object-cover"
+        />
+      ))}
+    </div>
+  );
+}
 
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
@@ -53,6 +71,7 @@ export function SearchPanel() {
             <p className="text-sm text-slate-600">
               {story.sender.name} · {totalWeight(pkg)} kg · {formatRange(pkg.preferredDeparture, pkg.preferredArrival)}
             </p>
+            <PackageThumbs pkg={pkg} />
             <p className="text-lg font-bold text-brand">{formatMoney(pkg.reward, story.currency)}</p>
           </Card>
         )}
@@ -108,6 +127,7 @@ export function TripsPanel() {
           <p className="text-sm text-slate-600">
             With {other} · {formatMoney(delivery.reward, story.currency)}
           </p>
+          <PackageThumbs pkg={delivery} />
         </Card>
       )}
 

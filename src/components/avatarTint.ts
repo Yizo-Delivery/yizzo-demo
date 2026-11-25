@@ -9,7 +9,7 @@ export function initials(name: string): string {
 
 const TINTS = [
   { bg: 'bg-brand-soft', fg: 'text-brand' },
-  { bg: 'bg-sky', fg: 'text-white' },
+  { bg: 'bg-blue-700', fg: 'text-white' },
   { bg: 'bg-brand', fg: 'text-white' },
   { bg: 'bg-amber-100', fg: 'text-amber-900' },
   { bg: 'bg-emerald-100', fg: 'text-emerald-900' },

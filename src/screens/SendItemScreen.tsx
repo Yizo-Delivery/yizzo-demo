@@ -7,7 +7,7 @@ import { Button, Card, Field, cx } from '@/components/ui';
 import { formatRange } from '@/demo/dates';
 import { useDemo, useDraft, usePhotos } from '@/demo/DemoProvider';
 import { computeFees, formatMoney } from '@/demo/fees';
-import { MAX_ITEM_KG, MAX_ITEMS, MIN_ITEM_KG, totalWeight, validatePackage } from '@/demo/matching';
+import { MAX_ITEM_KG, MAX_ITEMS, MIN_ITEM_KG, nextItemId, totalWeight, validatePackage } from '@/demo/matching';
 import { MAX_PICKED } from '@/demo/photos';
 import type { Item, ItemCategory, PackageDraft } from '@/demo/types';
 import { PaymentTable } from './EscrowScreen';
@@ -241,7 +241,7 @@ export function SendItemScreen() {
                   ...list,
                   {
                     key: nextKey,
-                    id: `item-${nextKey + 1}`,
+                    id: nextItemId(list.map((x) => x.id)),
                     name: '',
                     category: 'Package',
                     description: '',
@@ -297,7 +297,11 @@ export function SendItemScreen() {
               {items.map((item) => (
                 <li key={item.key} className="flex items-center gap-3">
                   {/* eslint-disable-next-line @next/next/no-img-element -- local files and object URLs */}
-                  <img src={item.photo} alt="" className="size-12 rounded-xl bg-brand-soft object-cover" />
+                  <img
+                    src={photos.photosFor(item.id)[0] ?? item.photo}
+                    alt=""
+                    className="size-12 rounded-xl bg-brand-soft object-cover"
+                  />
                   <span className="flex min-w-0 flex-1 flex-col">
                     <span className="font-semibold break-words text-brand">{item.name}</span>
                     <span className="text-sm text-slate-600">
