@@ -20,6 +20,6 @@ test('a new screen opens at the top', async ({ page }) => {
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('button', { name: 'Find travelers' }).click();
-  await expect(page.getByRole('heading', { name: 'Travelers for your package' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Available Travelers' })).toBeVisible();
   await expect.poll(() => scrolled(page)).toBe(0);
 });

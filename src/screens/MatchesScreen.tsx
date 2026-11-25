@@ -1,7 +1,9 @@
 'use client';
 
-import { BadgeCheck, CalendarDays, Luggage, PackageSearch } from 'lucide-react';
-import { Button, Card, StatusPill, Stars } from '@/components/ui';
+import { CalendarDays, PackageSearch } from 'lucide-react';
+import { Flag } from '@/components/Flag';
+import { TravelerCard } from '@/components/TravelerCard';
+import { Button, Card, StatusPill } from '@/components/ui';
 import { formatRange } from '@/demo/dates';
 import { useDemo } from '@/demo/DemoProvider';
 import { matchTravelers, totalWeight } from '@/demo/matching';
@@ -13,13 +15,28 @@ export function MatchesScreen() {
   const weight = totalWeight(state.pkg);
   const travelers = matchTravelers(story, state.pkg);
   const choosing = state.step === 'matches';
+  const route = story.popularRoutes[0];
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-6">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight">Travelers for your package</h1>
-        <p className="text-slate-600">
-          {state.pkg.origin} → {state.pkg.destination} · {weight} kg
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl font-bold tracking-tight text-brand">Available Travelers</h1>
+        <p className="flex items-center gap-2 font-semibold text-brand">
+          <Flag country={route.from.country} />
+          <span>
+            {state.pkg.origin} → {state.pkg.destination}
+          </span>
+          <Flag country={route.to.country} />
+        </p>
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
+          <span className="flex items-center gap-1.5">
+            <CalendarDays aria-hidden className="size-4 text-sky" />
+            {formatRange(state.pkg.preferredDeparture, state.pkg.preferredArrival)}
+          </span>
+          <span>{weight} kg</span>
+          <span className="font-semibold text-brand">
+            {travelers.length} {travelers.length === 1 ? 'traveler' : 'travelers'} for your package
+          </span>
         </p>
       </div>
 
@@ -33,48 +50,28 @@ export function MatchesScreen() {
         travelers.map((t, i) => {
           const sent = state.chosenTravelerId === t.id;
           return (
-            <article key={t.id} aria-label={t.name} className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex flex-col gap-1">
-                  <p className="text-lg font-semibold">{t.name}</p>
-                  <p className="flex items-center gap-1 text-sm font-medium text-brand">
-                    <BadgeCheck aria-hidden className="size-4" />
-                    Verified
-                  </p>
-                </div>
-                {i === 0 && (
-                  <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-slate-900">Best match</span>
-                )}
-              </div>
-              <p className="flex items-center gap-2 text-sm text-slate-700">
-                <Stars value={t.rating} />
-                {t.rating.toFixed(1)} · {t.trips} trips
-              </p>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
-                <span className="flex items-center gap-1.5">
-                  <CalendarDays aria-hidden className="size-4" />
-                  {formatRange(t.departure, t.arrival)}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Luggage aria-hidden className="size-4" />
-                  {t.spareKg} kg free
-                </span>
-              </div>
-              {sent ? (
-                <div>
-                  <StatusPill tone="sent">Offer sent</StatusPill>
-                </div>
-              ) : (
-                choosing && (
-                  <Button
-                    variant={i === 0 ? 'primary' : 'secondary'}
-                    onClick={() => dispatch({ type: 'sendOffer', travelerId: t.id })}
-                  >
-                    Send offer
-                  </Button>
+            <TravelerCard
+              key={t.id}
+              traveler={t}
+              story={story}
+              badge={i === 0 ? 'best' : undefined}
+              action={
+                sent ? (
+                  <div>
+                    <StatusPill tone="sent">Offer sent</StatusPill>
+                  </div>
+                ) : (
+                  choosing && (
+                    <Button
+                      variant={i === 0 ? 'primary' : 'secondary'}
+                      onClick={() => dispatch({ type: 'sendOffer', travelerId: t.id })}
+                    >
+                      Send offer
+                    </Button>
+                  )
                 )
-              )}
-            </article>
+              }
+            />
           );
         })
       )}
