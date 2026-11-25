@@ -37,7 +37,7 @@ const LEGS: [Step, Leg][] = [
   [
     'post',
     async (page) => {
-      await page.getByRole('button', { name: 'Send an Item' }).click();
+      await page.getByRole('button', { name: /^Send an Item/ }).click();
       await expect(nextStep(page)).toHaveText('Check the item, tap Next twice, then Find travelers.');
     },
   ],
