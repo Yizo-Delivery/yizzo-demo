@@ -125,12 +125,21 @@ const LEGS: [Step, Leg][] = [
   ],
 ];
 
+/** From Welcome: Get Started, then the story's card in the sheet */
+export async function pickStory(page: Page, story: StoryId): Promise<void> {
+  await page.getByRole('button', { name: 'Get Started' }).click();
+  await page
+    .getByRole('dialog', { name: 'Pick a story' })
+    .getByRole('button', { name: story === 'diaspora' ? /Diaspora/ : /Domestic/ })
+    .click();
+}
+
 /** Drives the demo from a fresh page to `step` */
 export async function walkTo(page: Page, story: StoryId, step: Step): Promise<void> {
   await page.goto('/');
   if (step === 'start') return;
 
-  await page.getByRole('button', { name: story === 'diaspora' ? /Diaspora/ : /Domestic/ }).click();
+  await pickStory(page, story);
   if (step === 'signup') return;
 
   const last = LEGS.findIndex(([s]) => s === step);

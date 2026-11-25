@@ -15,7 +15,7 @@ describe('guideFor', () => {
   it('has no one to act at the start', () => {
     const g = guideFor(initialState, null);
     expect(g.who).toBeNull();
-    expect(g.next).toMatch(/Pick a story/);
+    expect(g.next).toBe('Tap Get Started, then pick a story.');
   });
 
   it('tells the sender to switch to the traveler once the offer is sent', () => {

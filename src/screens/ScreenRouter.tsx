@@ -13,7 +13,7 @@ import { PostPackageScreen } from './PostPackageScreen';
 import { PostTripScreen } from './PostTripScreen';
 import { RatingScreen } from './RatingScreen';
 import { SignUpScreen } from './SignUpScreen';
-import { StartScreen } from './StartScreen';
+import { WelcomeScreen } from './WelcomeScreen';
 import { TravelerHomeScreen } from './TravelerHomeScreen';
 import { VerifyScreen } from './VerifyScreen';
 
@@ -44,7 +44,7 @@ export function ScreenRouter() {
 
   switch (state.step) {
     case 'start':
-      return <StartScreen />;
+      return <WelcomeScreen />;
     case 'signup':
       return <SignUpScreen />;
     case 'verify':

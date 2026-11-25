@@ -26,6 +26,16 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
  */
 export const ARM_MS = 350;
 
+/** False for ARM_MS after mount; for controls drawn where a tap may still be landing */
+export function useArmed(): boolean {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setArmed(true), ARM_MS);
+    return () => clearTimeout(timer);
+  }, []);
+  return armed;
+}
+
 export function Button({
   variant = 'primary',
   className,
@@ -34,12 +44,8 @@ export function Button({
   focusWhenArmed = false,
   ...props
 }: ButtonProps) {
-  const [armed, setArmed] = useState(false);
+  const armed = useArmed();
   const self = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    const timer = setTimeout(() => setArmed(true), ARM_MS);
-    return () => clearTimeout(timer);
-  }, []);
   useEffect(() => {
     if (armed && focusWhenArmed) self.current?.focus();
   }, [armed, focusWhenArmed]);

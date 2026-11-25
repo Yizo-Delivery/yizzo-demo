@@ -65,7 +65,7 @@ test('the done screen offers the other story', async ({ page }) => {
 test('Start over on the done screen returns to the start', async ({ page }) => {
   await walkTo(page, 'domestic', 'done');
   await page.getByRole('button', { name: 'Start over' }).click();
-  await expect(page.getByRole('button', { name: /Diaspora/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Get Started' })).toBeVisible();
 });
 
 test('domestic release pays in birr', async ({ page }) => {

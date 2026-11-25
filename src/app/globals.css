@@ -26,6 +26,14 @@ body {
   font-family: var(--font-jakarta), system-ui, sans-serif;
 }
 
+/* Bottom sheets slide up; still under reduced motion */
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sheet-up { animation: sheet-up 200ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+}
+
 /* Headings take focus when a new screen opens (for screen readers); no ring for that */
 h1[tabindex="-1"]:focus {
   outline: none;

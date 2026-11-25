@@ -132,7 +132,7 @@ export function guideFor(state: DemoState, story: Story | null): Guide {
       who: null,
       title: 'Welcome to the Yizzo demo',
       body: 'Yizzo connects people sending packages with travelers already going that way. Every person and number here is sample data.',
-      next: 'Pick a story to begin.',
+      next: 'Tap Get Started, then pick a story.',
     };
   }
 

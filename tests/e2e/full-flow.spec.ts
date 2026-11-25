@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { nextStep } from './helpers';
+import { nextStep, pickStory } from './helpers';
 
 interface Case {
   story: 'Diaspora' | 'Domestic';
@@ -19,7 +19,7 @@ const tap = (page: Page, name: string | RegExp) => page.getByRole('button', { na
 for (const c of CASES) {
   test(`${c.story}: the whole delivery, start to done`, async ({ page }) => {
     await page.goto('/');
-    await tap(page, new RegExp(c.story));
+    await pickStory(page, c.story === 'Diaspora' ? 'diaspora' : 'domestic');
 
     // Account
     await tap(page, 'Create account');
@@ -84,7 +84,7 @@ for (const c of CASES) {
 
 test('restart partway clears the delivery', async ({ page }) => {
   await page.goto('/');
-  await tap(page, /Diaspora/);
+  await pickStory(page, 'diaspora');
   await tap(page, 'Create account');
   await tap(page, 'Verify with Fayda');
   await tap(page, 'Allow');
@@ -102,7 +102,7 @@ test('restart partway clears the delivery', async ({ page }) => {
 
   // Restart, then the same story again up to the chat
   await page.getByRole('button', { name: 'Restart demo' }).filter({ visible: true }).click();
-  await tap(page, /Diaspora/);
+  await pickStory(page, 'diaspora');
   await expect(page.getByLabel('Full name')).toHaveValue('Selam Tesfaye');
   await tap(page, 'Create account');
   await tap(page, 'Verify with Fayda');
